@@ -158,6 +158,15 @@
 .dark ::-webkit-scrollbar-thumb { background: #30363D; }
 .dark ::-webkit-scrollbar-thumb:hover { background: #484F58; }
 
+/* Utilitaires mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* ══════════════════════════════════════════════════════════
    THEME TOGGLE BUTTON
 ══════════════════════════════════════════════════════════ */

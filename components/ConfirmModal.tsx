@@ -29,7 +29,7 @@ export function ConfirmModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       {/* Fond sombre estompé */}
       <div
         className="fixed inset-0 bg-slate-950/50 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
@@ -37,12 +37,15 @@ export function ConfirmModal({
       />
 
       {/* Boîte modale */}
-      <div className="relative bg-white dark:bg-[#161B22] rounded-3xl shadow-2xl border border-slate-200/90 dark:border-[#30363D] max-w-md w-full p-6 sm:p-7 z-10 animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative bg-white dark:bg-[#161B22] rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200/90 dark:border-[#30363D] max-w-md w-full p-6 sm:p-7 z-10 animate-in slide-in-from-bottom-6 sm:slide-in-from-bottom-0 sm:zoom-in-95 duration-200">
+        {/* Poignée tiroir mobile */}
+        <div className="w-12 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-4 sm:hidden" />
+
         <button
           type="button"
           onClick={onCancel}
           disabled={isProcessing}
-          className="absolute top-5 right-5 text-slate-400 hover:text-ink-primary dark:hover:text-white p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          className="absolute top-4 sm:top-5 right-4 sm:right-5 text-slate-400 hover:text-ink-primary dark:hover:text-white p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           aria-label="Fermer"
         >
           <X className="w-5 h-5" />

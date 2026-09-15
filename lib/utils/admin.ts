@@ -38,17 +38,36 @@ export function getStaticAdminEmails(): Set<string> {
 
 /**
  * Vérifie si un compte est un Super Admin fondateur (ne peut pas être rétrogradé).
- * Basé uniquement sur SUPER_ADMIN_EMAIL env var.
+ * Vérifie SUPER_ADMIN_EMAIL, SUPER_ADMIN_EMAILS (liste), NEXT_PUBLIC_SUPER_ADMIN_EMAIL,
+ * et ADMIN_EMAIL comme dernier recours.
  */
 export function isSuperAdmin(email?: string | null): boolean {
   if (!email) return false;
   const normalized = email.trim().toLowerCase();
-  const superAdminEnv = (
-    process.env.SUPER_ADMIN_EMAIL ||
-    process.env.NEXT_PUBLIC_SUPER_ADMIN_EMAIL ||
-    process.env.ADMIN_EMAIL
-  )?.trim().toLowerCase();
-  return Boolean(superAdminEnv && normalized === superAdminEnv);
+
+  // Construire la liste complète des super-admins depuis les variables d'env
+  const superAdminEmails = new Set<string>();
+
+  // Variable unique
+  const single = process.env.SUPER_ADMIN_EMAIL || process.env.NEXT_PUBLIC_SUPER_ADMIN_EMAIL;
+  if (single) {
+    superAdminEmails.add(single.trim().toLowerCase());
+  }
+
+  // Variable liste séparée par virgule (optionnel)
+  if (process.env.SUPER_ADMIN_EMAILS) {
+    process.env.SUPER_ADMIN_EMAILS.split(',')
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean)
+      .forEach((e) => superAdminEmails.add(e));
+  }
+
+  // ADMIN_EMAIL comme dernier recours si rien d'autre n'est défini
+  if (superAdminEmails.size === 0 && process.env.ADMIN_EMAIL) {
+    superAdminEmails.add(process.env.ADMIN_EMAIL.trim().toLowerCase());
+  }
+
+  return superAdminEmails.has(normalized);
 }
 
 /**

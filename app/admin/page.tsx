@@ -50,7 +50,10 @@ import {
   CheckSquare,
   Square,
   MinusSquare,
-  Archive
+  Archive,
+  Smartphone,
+  Monitor,
+  Globe
 } from 'lucide-react';
 
 interface UserAccount {
@@ -857,47 +860,48 @@ export default function AdminPage() {
         )}
 
         {/* KPI Quick Stats Row */}
+        {/* KPI Quick Stats Row (Responsive: 3 cols sur mobile, 6 cols sur desktop) */}
         {stats && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">À Valider</span>
-              <span className={`text-2xl font-black mt-1 block ${(derivedStats?.pendingCount ?? stats.pendingCount) > 0 ? 'text-amber-600' : 'text-slate-700'
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 mb-6">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">À Valider</span>
+              <span className={`text-lg sm:text-2xl font-black mt-0.5 sm:mt-1 block ${(derivedStats?.pendingCount ?? stats.pendingCount) > 0 ? 'text-amber-600' : 'text-slate-700'
                 }`}>
                 {derivedStats?.pendingCount ?? stats.pendingCount}
               </span>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">En Ligne</span>
-              <span className="text-2xl font-black text-emerald-600 mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">En Ligne</span>
+              <span className="text-lg sm:text-2xl font-black text-emerald-600 mt-0.5 sm:mt-1 block">
                 {derivedStats?.approvedCount ?? stats.approvedCount}
               </span>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Utilisateurs</span>
-              <span className="text-2xl font-black text-brand mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Utilisateurs</span>
+              <span className="text-lg sm:text-2xl font-black text-brand mt-0.5 sm:mt-1 block">
                 {stats.totalUsers || 1}
               </span>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Admins</span>
-              <span className="text-2xl font-black text-indigo-600 mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Admins</span>
+              <span className="text-lg sm:text-2xl font-black text-indigo-600 mt-0.5 sm:mt-1 block">
                 {stats.totalAdmins || 1}
               </span>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Matières</span>
-              <span className="text-2xl font-black text-teal-600 mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Matières</span>
+              <span className="text-lg sm:text-2xl font-black text-teal-600 mt-0.5 sm:mt-1 block">
                 {stats.totalMatieres || matieresList.length}
               </span>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Connexions</span>
-              <span className="text-2xl font-black text-blue-600 mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Connexions</span>
+              <span className="text-lg sm:text-2xl font-black text-blue-600 mt-0.5 sm:mt-1 block">
                 {stats.totalLogins || 0}
               </span>
             </div>
@@ -906,115 +910,116 @@ export default function AdminPage() {
 
         {/* Fallback KPIs si stats serveur pas encore chargées mais épreuves disponibles */}
         {!stats && epreuves.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">À Valider</span>
-              <span className={`text-2xl font-black mt-1 block ${epreuves.filter((e) => e.statut === 'en_attente').length > 0 ? 'text-amber-600' : 'text-slate-700'
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 mb-6">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">À Valider</span>
+              <span className={`text-lg sm:text-2xl font-black mt-0.5 sm:mt-1 block ${epreuves.filter((e) => e.statut === 'en_attente').length > 0 ? 'text-amber-600' : 'text-slate-700'
                 }`}>
                 {epreuves.filter((e) => e.statut === 'en_attente').length}
               </span>
             </div>
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">En Ligne</span>
-              <span className="text-2xl font-black text-emerald-600 mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">En Ligne</span>
+              <span className="text-lg sm:text-2xl font-black text-emerald-600 mt-0.5 sm:mt-1 block">
                 {epreuves.filter((e) => e.statut === 'approuve').length}
               </span>
             </div>
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Rejetées</span>
-              <span className="text-2xl font-black text-red-500 mt-1 block">
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Rejetées</span>
+              <span className="text-lg sm:text-2xl font-black text-red-500 mt-0.5 sm:mt-1 block">
                 {epreuves.filter((e) => e.statut === 'rejete').length}
               </span>
             </div>
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs col-span-3">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total épreuves</span>
-              <span className="text-2xl font-black text-brand mt-1 block">{epreuves.length}</span>
+            <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-xs col-span-3">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Total épreuves</span>
+              <span className="text-lg sm:text-2xl font-black text-brand mt-0.5 sm:mt-1 block">{epreuves.length}</span>
             </div>
           </div>
         )}
 
+        {/* Navigation des onglets principaux (Défilement fluide horizontal sur mobile, pills sur desktop) */}
+        <div className="relative mb-6">
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1 -mx-4 px-4 sm:mx-0 border-b border-slate-200/80 pb-3">
+            <button
+              type="button"
+              onClick={() => setMainTab('soumissions')}
+              className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 whitespace-nowrap active:scale-95 ${mainTab === 'soumissions'
+                ? 'bg-brand text-white shadow-sm shadow-brand/20'
+                : 'text-ink-secondary bg-slate-100/80 hover:bg-slate-200/80 sm:bg-transparent'
+                }`}
+            >
+              <FolderOpen className="w-4 h-4 shrink-0" />
+              <span>Soumissions</span>
+              {stats && stats.pendingCount > 0 && (
+                <span className="px-1.5 py-0.5 text-[10px] font-black rounded-full bg-red-500 text-white min-w-[18px] text-center leading-none">
+                  {stats.pendingCount}
+                </span>
+              )}
+            </button>
 
-        {/* Barre de navigation des onglets principaux */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3 mb-8">
-          <button
-            type="button"
-            onClick={() => setMainTab('soumissions')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'soumissions'
-              ? 'bg-brand text-white shadow-sm shadow-brand/20'
-              : 'text-ink-secondary hover:bg-slate-100'
-              }`}
-          >
-            <FolderOpen className="w-4 h-4" />
-            <span>Soumissions</span>
-            {stats && stats.pendingCount > 0 && (
-              <span className="px-1.5 py-0.2 text-[10px] font-black rounded-full bg-red-500 text-white">
-                {stats.pendingCount}
+            <button
+              type="button"
+              onClick={() => setMainTab('import_lot')}
+              className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 whitespace-nowrap active:scale-95 ${mainTab === 'import_lot'
+                ? 'bg-brand text-white shadow-sm shadow-brand/20'
+                : 'text-ink-secondary bg-slate-100/80 hover:bg-slate-200/80 sm:bg-transparent'
+                }`}
+            >
+              <UploadCloud className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Import en lot</span>
+              <span className="px-1.5 py-0.5 text-[9px] font-black rounded-md bg-emerald-500/20 text-emerald-600 border border-emerald-500/30">
+                Masse
               </span>
-            )}
-          </button>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setMainTab('import_lot')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'import_lot'
-              ? 'bg-brand text-white shadow-sm shadow-brand/20'
-              : 'text-ink-secondary hover:bg-slate-100'
-              }`}
-          >
-            <UploadCloud className="w-4 h-4 text-emerald-400" />
-            <span>Import en lot</span>
-            <span className="px-1.5 py-0.5 text-[9px] font-black rounded-md bg-emerald-500/20 text-emerald-600 border border-emerald-500/30">
-              Masse
-            </span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setMainTab('matieres')}
+              className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 whitespace-nowrap active:scale-95 ${mainTab === 'matieres'
+                ? 'bg-brand text-white shadow-sm shadow-brand/20'
+                : 'text-ink-secondary bg-slate-100/80 hover:bg-slate-200/80 sm:bg-transparent'
+                }`}
+            >
+              <BookOpen className="w-4 h-4 shrink-0" />
+              <span>Matières ({matieresList.length})</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setMainTab('matieres')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'matieres'
-              ? 'bg-brand text-white shadow-sm shadow-brand/20'
-              : 'text-ink-secondary hover:bg-slate-100'
-              }`}
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>Matières ({matieresList.length})</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setMainTab('utilisateurs')}
+              className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 whitespace-nowrap active:scale-95 ${mainTab === 'utilisateurs'
+                ? 'bg-brand text-white shadow-sm shadow-brand/20'
+                : 'text-ink-secondary bg-slate-100/80 hover:bg-slate-200/80 sm:bg-transparent'
+                }`}
+            >
+              <Users className="w-4 h-4 shrink-0" />
+              <span>Comptes ({usersList.length})</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setMainTab('utilisateurs')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'utilisateurs'
-              ? 'bg-brand text-white shadow-sm shadow-brand/20'
-              : 'text-ink-secondary hover:bg-slate-100'
-              }`}
-          >
-            <Users className="w-4 h-4" />
-            <span>Comptes ({usersList.length})</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setMainTab('connexions')}
+              className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 whitespace-nowrap active:scale-95 ${mainTab === 'connexions'
+                ? 'bg-brand text-white shadow-sm shadow-brand/20'
+                : 'text-ink-secondary bg-slate-100/80 hover:bg-slate-200/80 sm:bg-transparent'
+                }`}
+            >
+              <History className="w-4 h-4 shrink-0" />
+              <span>Historique Connexions</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setMainTab('connexions')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'connexions'
-              ? 'bg-brand text-white shadow-sm shadow-brand/20'
-              : 'text-ink-secondary hover:bg-slate-100'
-              }`}
-          >
-            <History className="w-4 h-4" />
-            <span>Historique Connexions</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMainTab('stats')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'stats'
-              ? 'bg-brand text-white shadow-sm shadow-brand/20'
-              : 'text-ink-secondary hover:bg-slate-100'
-              }`}
-          >
-            <BarChart3 className="w-4 h-4" />
-            <span>Statistiques & Vue globale</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setMainTab('stats')}
+              className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 whitespace-nowrap active:scale-95 ${mainTab === 'stats'
+                ? 'bg-brand text-white shadow-sm shadow-brand/20'
+                : 'text-ink-secondary bg-slate-100/80 hover:bg-slate-200/80 sm:bg-transparent'
+                }`}
+            >
+              <BarChart3 className="w-4 h-4 shrink-0" />
+              <span>Statistiques</span>
+            </button>
+          </div>
         </div>
 
         {/* ============================================================ */}
@@ -1023,21 +1028,21 @@ export default function AdminPage() {
         {mainTab === 'soumissions' && (
           <div>
             {/* Filtres de soumissions */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
-              {/* Onglets statut */}
-              <div className="flex items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+            <div className="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200/80 shadow-xs mb-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+              {/* Onglets statut avec défilement fluide sans barre */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 lg:pb-0 shrink-0">
                 <button
                   type="button"
                   onClick={() => setActiveTab('en_attente')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'en_attente'
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 active:scale-95 ${activeTab === 'en_attente'
                     ? 'bg-amber-100 text-amber-900 border border-amber-300 shadow-xs'
                     : 'text-slate-600 hover:bg-slate-100'
                     }`}
                 >
-                  <Clock className="w-3.5 h-3.5 text-amber-600" />
+                  <Clock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                   <span>À valider</span>
                   {stats && stats.pendingCount > 0 && (
-                    <span className="px-1.5 py-0.2 text-[10px] bg-amber-600 text-white rounded-full">
+                    <span className="px-1.5 py-0.5 text-[10px] bg-amber-600 text-white rounded-full font-black min-w-[18px] text-center leading-none">
                       {stats.pendingCount}
                     </span>
                   )}
@@ -1046,31 +1051,31 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('approuve')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'approuve'
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 active:scale-95 ${activeTab === 'approuve'
                     ? 'bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-xs'
                     : 'text-slate-600 hover:bg-slate-100'
                     }`}
                 >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>En ligne</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setActiveTab('rejete')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'rejete'
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 active:scale-95 ${activeTab === 'rejete'
                     ? 'bg-red-100 text-red-900 border border-red-300 shadow-xs'
                     : 'text-slate-600 hover:bg-slate-100'
                     }`}
                 >
-                  <XCircle className="w-3.5 h-3.5 text-red-600" />
+                  <XCircle className="w-3.5 h-3.5 text-red-600 shrink-0" />
                   <span>Rejetées</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setActiveTab('all')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'all'
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 active:scale-95 ${activeTab === 'all'
                     ? 'bg-slate-200 text-slate-900 border border-slate-300 shadow-xs'
                     : 'text-slate-600 hover:bg-slate-100'
                     }`}
@@ -1079,44 +1084,100 @@ export default function AdminPage() {
                 </button>
               </div>
 
-              {/* Recherche & Niveau */}
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <div className="relative flex-1 md:w-60">
+              {/* Recherche, Niveau & Import par lot */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div className="relative flex-1 sm:w-60">
                   <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Filtrer matière ou titre..."
-                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand"
+                    className="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand"
                   />
                 </div>
 
-                <select
-                  value={selectedNiveau}
-                  onChange={(e) => setSelectedNiveau(e.target.value)}
-                  className="px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
-                >
-                  <option value="all">Tous niveaux</option>
-                  {VALID_NIVEAUX_PREDEFINIS.map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={selectedNiveau}
+                    onChange={(e) => setSelectedNiveau(e.target.value)}
+                    className="flex-1 sm:flex-initial px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                  >
+                    <option value="all">Tous niveaux</option>
+                    {VALID_NIVEAUX_PREDEFINIS.map((n) => (
+                      <option key={n} value={n}>{n}</option>
+                    ))}
+                  </select>
 
-                <button
-                  type="button"
-                  onClick={() => setMainTab('import_lot')}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold rounded-xl border border-emerald-200 transition-colors shadow-xs shrink-0"
-                  title="Téléverser plusieurs épreuves simultanément"
-                >
-                  <UploadCloud className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="hidden sm:inline">+ Import par lot</span>
-                  <span className="sm:hidden">+ Lot</span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setMainTab('import_lot')}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold rounded-xl border border-emerald-200 transition-colors shadow-xs shrink-0 active:scale-95"
+                    title="Téléverser plusieurs épreuves simultanément"
+                  >
+                    <UploadCloud className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="hidden sm:inline">+ Import lot</span>
+                    <span className="sm:hidden">+ Lot</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Table des soumissions */}
+            {/* Barre de sélection multiple flottante */}
+            {selectedIds.size > 0 && (
+              <div className="fixed bottom-4 left-3 right-3 sm:left-auto sm:right-6 z-40 bg-slate-900/95 backdrop-blur-md text-white rounded-2xl shadow-2xl p-3 sm:px-5 sm:py-3.5 flex flex-wrap items-center justify-between gap-2.5 border border-slate-700 animate-in slide-in-from-bottom duration-200">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-brand text-[11px] font-black">
+                    {selectedIds.size}
+                  </span>
+                  <span className="text-xs font-semibold">sélectionnée(s)</span>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleBulkAction('approuve')}
+                    disabled={isBulkLoading}
+                    className="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1 shadow-xs active:scale-95"
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Valider</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleBulkAction('rejete')}
+                    disabled={isBulkLoading}
+                    className="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1 shadow-xs active:scale-95"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    <span>Rejeter</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleExportZip}
+                    disabled={isExportingZip}
+                    className="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1 active:scale-95"
+                    title="Télécharger l'archive ZIP"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">ZIP</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIds(new Set())}
+                    className="p-2 text-slate-400 hover:text-white rounded-xl transition-colors"
+                    title="Désélectionner"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Contenu des soumissions */}
             {loading ? (
               <div className="py-20 text-center bg-white rounded-3xl border border-slate-200/80">
                 <Loader2 className="w-8 h-8 text-brand animate-spin mx-auto mb-3" />
@@ -1133,209 +1194,376 @@ export default function AdminPage() {
                 </p>
               </div>
             ) : (
-              <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-100 bg-slate-50/70 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                        {/* Checkbox tout sélectionner */}
-                        <th className="py-3.5 pl-4 pr-2 w-10">
-                          <button
-                            type="button"
-                            onClick={toggleSelectAll}
-                            title={allSelected ? 'Tout désélectionner' : 'Tout sélectionner'}
-                            className="text-slate-400 hover:text-brand transition-colors"
-                          >
-                            {allSelected ? (
-                              <CheckSquare className="w-4 h-4 text-brand" />
-                            ) : someSelected ? (
-                              <MinusSquare className="w-4 h-4 text-brand" />
-                            ) : (
-                              <Square className="w-4 h-4" />
-                            )}
-                          </button>
-                        </th>
-                        <th className="py-3.5 px-4">Épreuve</th>
-                        <th className="py-3.5 px-3">Matière & Niveau</th>
-                        <th className="py-3.5 px-3">Type & Année</th>
-                        <th className="py-3.5 px-3">Déposé par</th>
-                        <th className="py-3.5 px-3 text-center">Corrigé</th>
-                        <th className="py-3.5 px-3 text-center">Statut</th>
-                        <th className="py-3.5 px-4 text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 text-xs">
-                      {epreuves.map((epreuve) => {
-                        const isActionLoading = actionLoadingId === epreuve.id;
-                        const isSelected = selectedIds.has(epreuve.id);
+              <>
+                {/* ── 1. VUE MOBILE : Cartes tactiles interactives (écrans < md) ── */}
+                <div className="md:hidden space-y-3">
+                  {/* Bouton de sélection rapide mobile */}
+                  <div className="flex items-center justify-between px-1 text-xs text-slate-500">
+                    <button
+                      type="button"
+                      onClick={toggleSelectAll}
+                      className="flex items-center gap-1.5 font-bold text-ink-primary hover:text-brand transition-colors"
+                    >
+                      {allSelected ? (
+                        <CheckSquare className="w-4 h-4 text-brand" />
+                      ) : someSelected ? (
+                        <MinusSquare className="w-4 h-4 text-brand" />
+                      ) : (
+                        <Square className="w-4 h-4 text-slate-400" />
+                      )}
+                      <span>Tout sélectionner ({epreuves.length})</span>
+                    </button>
+                    {selectedIds.size > 0 && (
+                      <span className="font-bold text-brand">{selectedIds.size} cochée(s)</span>
+                    )}
+                  </div>
 
-                        return (
-                          <tr
-                            key={epreuve.id}
-                            className={`hover:bg-slate-50/60 transition-colors ${isSelected ? 'bg-brand/5 border-l-2 border-l-brand' : ''
-                              }`}
-                          >
-                            {/* Checkbox sélection */}
-                            <td className="py-3.5 pl-4 pr-2">
-                              <button
-                                type="button"
-                                onClick={() => toggleSelectOne(epreuve.id)}
-                                className="text-slate-300 hover:text-brand transition-colors"
-                              >
-                                {isSelected ? (
-                                  <CheckSquare className="w-4 h-4 text-brand" />
-                                ) : (
-                                  <Square className="w-4 h-4" />
-                                )}
-                              </button>
-                            </td>
+                  {epreuves.map((epreuve) => {
+                    const isActionLoading = actionLoadingId === epreuve.id;
+                    const isSelected = selectedIds.has(epreuve.id);
 
-                            {/* Épreuve & Titre */}
-                            <td className="py-3.5 px-4">
-                              <div className="flex items-center gap-2.5">
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${epreuve.type_fichier === 'pdf' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
-                                  }`}>
-                                  {epreuve.type_fichier === 'pdf' ? <FileText className="w-4 h-4" /> : <ImageIcon className="w-4 h-4" />}
-                                </div>
-                                <div className="max-w-[200px] truncate">
-                                  <span className="font-bold text-ink-primary block truncate">
-                                    {epreuve.titre || epreuve.matiere_nom}
-                                  </span>
-                                  <span className="text-[10px] text-slate-400">
-                                    {formatFileSize(epreuve.taille_octets)} • {formatRelativeDate(epreuve.created_at)}
-                                  </span>
-                                </div>
-                              </div>
-                            </td>
-
-                            {/* Matière & Niveau */}
-                            <td className="py-3.5 px-3">
-                              <span className="font-semibold text-ink-primary block truncate max-w-[160px]">
+                    return (
+                      <div
+                        key={epreuve.id}
+                        className={`bg-white rounded-2xl p-4 border transition-all shadow-2xs ${
+                          isSelected ? 'border-brand ring-2 ring-brand/20 bg-brand/5' : 'border-slate-200/80'
+                        }`}
+                      >
+                        {/* En-tête de la carte */}
+                        <div className="flex items-start justify-between gap-3 mb-2.5">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <button
+                              type="button"
+                              onClick={() => toggleSelectOne(epreuve.id)}
+                              className="text-slate-300 hover:text-brand transition-colors shrink-0 p-1"
+                              aria-label="Sélectionner"
+                            >
+                              {isSelected ? (
+                                <CheckSquare className="w-4 h-4 text-brand" />
+                              ) : (
+                                <Square className="w-4 h-4" />
+                              )}
+                            </button>
+                            <div className="min-w-0">
+                              <span className="font-bold text-sm text-ink-primary block truncate">
                                 {epreuve.matiere_nom}
                               </span>
-                              <span className="text-[11px] text-slate-500">
-                                {epreuve.niveau}
-                              </span>
-                            </td>
-
-                            {/* Type & Année */}
-                            <td className="py-3.5 px-3">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${epreuve.type === 'devoir' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
+                              <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
+                                <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-600">
+                                  {epreuve.niveau}
+                                </span>
+                                <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold capitalize ${
+                                  epreuve.type === 'devoir' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
                                 }`}>
-                                {epreuve.type}
-                              </span>
-                              <span className="text-[11px] text-slate-500 block mt-0.5">
-                                {epreuve.annee_academique}
-                              </span>
-                            </td>
-
-                            {/* Auteur */}
-                            <td className="py-3.5 px-3">
-                              <span className="font-medium text-ink-primary block truncate max-w-[140px]">
-                                {epreuve.uploader_nom || 'Anonyme'}
-                              </span>
-                              <span className="text-[10px] text-slate-400 block truncate max-w-[140px]">
-                                {epreuve.uploader_email}
-                              </span>
-                            </td>
-
-                            {/* Corrigé */}
-                            <td className="py-3.5 px-3 text-center">
-                              {epreuve.has_corrige ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                  <Check className="w-3 h-3 text-emerald-600" />
-                                  <span>Corrigé</span>
+                                  {epreuve.type}
                                 </span>
-                              ) : (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-50 text-slate-400 border border-slate-200">
-                                  Sans corrigé
+                                <span className="text-[10px] text-slate-400">
+                                  {epreuve.annee_academique}
                                 </span>
-                              )}
-                            </td>
-
-                            {/* Statut */}
-                            <td className="py-3.5 px-3 text-center">
-                              {getStatusBadge(epreuve.statut)}
-                            </td>
-
-                            {/* Actions rapides */}
-                            <td className="py-3.5 px-4 text-right">
-                              <div className="flex items-center justify-end gap-1.5">
-                                {/* Page détaillée / gestion corrigé */}
-                                <Link
-                                  href={`/epreuves/${epreuve.id}`}
-                                  target="_blank"
-                                  title="Ouvrir la page de l'épreuve (voir / déposer un corrigé)"
-                                  className="p-1.5 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
-                                >
-                                  <ExternalLink className="w-4 h-4" />
-                                </Link>
-
-                                {/* Aperçu */}
-                                <button
-                                  type="button"
-                                  onClick={() => setPreviewEpreuve(epreuve)}
-                                  title="Aperçu du fichier"
-                                  className="p-1.5 text-slate-500 hover:text-brand hover:bg-slate-100 rounded-lg transition-colors"
-                                >
-                                  <Eye className="w-4 h-4" />
-                                </button>
-
-                                {/* Modifier les détails */}
-                                <button
-                                  type="button"
-                                  onClick={() => openEditModal(epreuve)}
-                                  title="Modifier les détails de la soumission"
-                                  className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                >
-                                  <Edit3 className="w-4 h-4" />
-                                </button>
-
-                                {/* Valider */}
-                                {epreuve.statut !== 'approuve' && (
-                                  <button
-                                    type="button"
-                                    onClick={() => handleUpdateStatut(epreuve.id, 'approuve')}
-                                    disabled={isActionLoading}
-                                    title="Mettre en ligne"
-                                    className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors disabled:opacity-40"
-                                  >
-                                    <Check className="w-4 h-4" />
-                                  </button>
-                                )}
-
-                                {/* Rejeter */}
-                                {epreuve.statut !== 'rejete' && (
-                                  <button
-                                    type="button"
-                                    onClick={() => handleUpdateStatut(epreuve.id, 'rejete')}
-                                    disabled={isActionLoading}
-                                    title="Rejeter"
-                                    className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors disabled:opacity-40"
-                                  >
-                                    <X className="w-4 h-4" />
-                                  </button>
-                                )}
-
-                                {/* Supprimer définitivement */}
-                                <button
-                                  type="button"
-                                  onClick={() => setDeleteTarget(epreuve)}
-                                  disabled={isActionLoading}
-                                  title="Supprimer définitivement"
-                                  className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
                               </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            </div>
+                          </div>
+                          <div className="shrink-0 flex flex-col items-end gap-1">
+                            {getStatusBadge(epreuve.statut)}
+                            {epreuve.has_corrige && (
+                              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <Check className="w-2.5 h-2.5" />
+                                Corrigé
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Détails du document */}
+                        <div className="flex items-center gap-2.5 py-2 px-3 bg-slate-50 rounded-xl mb-3">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                            epreuve.type_fichier === 'pdf' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
+                          }`}>
+                            {epreuve.type_fichier === 'pdf' ? <FileText className="w-4 h-4" /> : <ImageIcon className="w-4 h-4" />}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-semibold text-ink-primary truncate">
+                              {epreuve.titre || epreuve.matiere_nom}
+                            </p>
+                            <p className="text-[10px] text-slate-400 truncate">
+                              {formatFileSize(epreuve.taille_octets)} • Par {epreuve.uploader_nom || 'Anonyme'} • {formatRelativeDate(epreuve.created_at)}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Barre d'actions rapides au pouce */}
+                        <div className="flex items-center justify-between gap-1.5 pt-2.5 border-t border-slate-100">
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => setPreviewEpreuve(epreuve)}
+                              className="p-2 text-slate-500 hover:text-brand hover:bg-slate-100 rounded-xl transition-colors active:scale-95"
+                              title="Aperçu du fichier"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => openEditModal(epreuve)}
+                              className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors active:scale-95"
+                              title="Modifier"
+                            >
+                              <Edit3 className="w-4 h-4" />
+                            </button>
+                            <Link
+                              href={`/epreuves/${epreuve.id}`}
+                              target="_blank"
+                              className="p-2 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors active:scale-95"
+                              title="Voir la page épreuve"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => setDeleteTarget(epreuve)}
+                              disabled={isActionLoading}
+                              className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-40 active:scale-95"
+                              title="Supprimer définitivement"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <div className="flex items-center gap-1.5">
+                            {epreuve.statut !== 'rejete' && (
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateStatut(epreuve.id, 'rejete')}
+                                disabled={isActionLoading}
+                                className="px-3 py-2 text-xs font-bold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl flex items-center gap-1 transition-colors disabled:opacity-40 active:scale-95"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                                <span>Rejeter</span>
+                              </button>
+                            )}
+                            {epreuve.statut !== 'approuve' && (
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateStatut(epreuve.id, 'approuve')}
+                                disabled={isActionLoading}
+                                className="px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl flex items-center gap-1 shadow-xs transition-colors disabled:opacity-40 active:scale-95"
+                              >
+                                <Check className="w-3.5 h-3.5" />
+                                <span>Valider</span>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
+
+                {/* ── 2. VUE DESKTOP : Table complète (écrans >= md) ── */}
+                <div className="hidden md:block bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-slate-100 bg-slate-50/70 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                          {/* Checkbox tout sélectionner */}
+                          <th className="py-3.5 pl-4 pr-2 w-10">
+                            <button
+                              type="button"
+                              onClick={toggleSelectAll}
+                              title={allSelected ? 'Tout désélectionner' : 'Tout sélectionner'}
+                              className="text-slate-400 hover:text-brand transition-colors"
+                            >
+                              {allSelected ? (
+                                <CheckSquare className="w-4 h-4 text-brand" />
+                              ) : someSelected ? (
+                                <MinusSquare className="w-4 h-4 text-brand" />
+                              ) : (
+                                <Square className="w-4 h-4" />
+                              )}
+                            </button>
+                          </th>
+                          <th className="py-3.5 px-4">Épreuve</th>
+                          <th className="py-3.5 px-3">Matière & Niveau</th>
+                          <th className="py-3.5 px-3">Type & Année</th>
+                          <th className="py-3.5 px-3">Déposé par</th>
+                          <th className="py-3.5 px-3 text-center">Corrigé</th>
+                          <th className="py-3.5 px-3 text-center">Statut</th>
+                          <th className="py-3.5 px-4 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-xs">
+                        {epreuves.map((epreuve) => {
+                          const isActionLoading = actionLoadingId === epreuve.id;
+                          const isSelected = selectedIds.has(epreuve.id);
+
+                          return (
+                            <tr
+                              key={epreuve.id}
+                              className={`hover:bg-slate-50/60 transition-colors ${isSelected ? 'bg-brand/5 border-l-2 border-l-brand' : ''
+                                }`}
+                            >
+                              {/* Checkbox sélection */}
+                              <td className="py-3.5 pl-4 pr-2">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleSelectOne(epreuve.id)}
+                                  className="text-slate-300 hover:text-brand transition-colors"
+                                >
+                                  {isSelected ? (
+                                    <CheckSquare className="w-4 h-4 text-brand" />
+                                  ) : (
+                                    <Square className="w-4 h-4" />
+                                  )}
+                                </button>
+                              </td>
+
+                              {/* Épreuve & Titre */}
+                              <td className="py-3.5 px-4">
+                                <div className="flex items-center gap-2.5">
+                                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${epreuve.type_fichier === 'pdf' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
+                                    }`}>
+                                    {epreuve.type_fichier === 'pdf' ? <FileText className="w-4 h-4" /> : <ImageIcon className="w-4 h-4" />}
+                                  </div>
+                                  <div className="max-w-[200px] truncate">
+                                    <span className="font-bold text-ink-primary block truncate">
+                                      {epreuve.titre || epreuve.matiere_nom}
+                                    </span>
+                                    <span className="text-[10px] text-slate-400">
+                                      {formatFileSize(epreuve.taille_octets)} • {formatRelativeDate(epreuve.created_at)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+
+                              {/* Matière & Niveau */}
+                              <td className="py-3.5 px-3">
+                                <span className="font-semibold text-ink-primary block truncate max-w-[160px]">
+                                  {epreuve.matiere_nom}
+                                </span>
+                                <span className="text-[11px] text-slate-500">
+                                  {epreuve.niveau}
+                                </span>
+                              </td>
+
+                              {/* Type & Année */}
+                              <td className="py-3.5 px-3">
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${epreuve.type === 'devoir' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
+                                  }`}>
+                                  {epreuve.type}
+                                </span>
+                                <span className="text-[11px] text-slate-500 block mt-0.5">
+                                  {epreuve.annee_academique}
+                                </span>
+                              </td>
+
+                              {/* Auteur */}
+                              <td className="py-3.5 px-3">
+                                <span className="font-medium text-ink-primary block truncate max-w-[140px]">
+                                  {epreuve.uploader_nom || 'Anonyme'}
+                                </span>
+                                <span className="text-[10px] text-slate-400 block truncate max-w-[140px]">
+                                  {epreuve.uploader_email}
+                                </span>
+                              </td>
+
+                              {/* Corrigé */}
+                              <td className="py-3.5 px-3 text-center">
+                                {epreuve.has_corrige ? (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <Check className="w-3 h-3 text-emerald-600" />
+                                    <span>Corrigé</span>
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-50 text-slate-400 border border-slate-200">
+                                    Sans corrigé
+                                  </span>
+                                )}
+                              </td>
+
+                              {/* Statut */}
+                              <td className="py-3.5 px-3 text-center">
+                                {getStatusBadge(epreuve.statut)}
+                              </td>
+
+                              {/* Actions rapides */}
+                              <td className="py-3.5 px-4 text-right">
+                                <div className="flex items-center justify-end gap-1.5">
+                                  {/* Page détaillée / gestion corrigé */}
+                                  <Link
+                                    href={`/epreuves/${epreuve.id}`}
+                                    target="_blank"
+                                    title="Ouvrir la page de l'épreuve (voir / déposer un corrigé)"
+                                    className="p-1.5 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                                  >
+                                    <ExternalLink className="w-4 h-4" />
+                                  </Link>
+
+                                  {/* Aperçu */}
+                                  <button
+                                    type="button"
+                                    onClick={() => setPreviewEpreuve(epreuve)}
+                                    title="Aperçu du fichier"
+                                    className="p-1.5 text-slate-500 hover:text-brand hover:bg-slate-100 rounded-lg transition-colors"
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                  </button>
+
+                                  {/* Modifier les détails */}
+                                  <button
+                                    type="button"
+                                    onClick={() => openEditModal(epreuve)}
+                                    title="Modifier les détails de la soumission"
+                                    className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                  >
+                                    <Edit3 className="w-4 h-4" />
+                                  </button>
+
+                                  {/* Valider */}
+                                  {epreuve.statut !== 'approuve' && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleUpdateStatut(epreuve.id, 'approuve')}
+                                      disabled={isActionLoading}
+                                      title="Mettre en ligne"
+                                      className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors disabled:opacity-40"
+                                    >
+                                      <Check className="w-4 h-4" />
+                                    </button>
+                                  )}
+
+                                  {/* Rejeter */}
+                                  {epreuve.statut !== 'rejete' && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleUpdateStatut(epreuve.id, 'rejete')}
+                                      disabled={isActionLoading}
+                                      title="Rejeter"
+                                      className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors disabled:opacity-40"
+                                    >
+                                      <X className="w-4 h-4" />
+                                    </button>
+                                  )}
+
+                                  {/* Supprimer définitivement */}
+                                  <button
+                                    type="button"
+                                    onClick={() => setDeleteTarget(epreuve)}
+                                    disabled={isActionLoading}
+                                    title="Supprimer définitivement"
+                                    className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         )}
@@ -1400,7 +1628,38 @@ export default function AdminPage() {
                 </span>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* ── 1. VUE MOBILE : Cartes matières (écrans < md) ── */}
+              <div className="md:hidden divide-y divide-slate-100">
+                {matieresList.map((m) => (
+                  <div key={m.id} className="p-4 flex items-center justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <span className="font-bold text-sm text-ink-primary block truncate">{m.nom}</span>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          m.total_epreuves > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                        }`}>
+                          {m.total_epreuves} épreuve(s)
+                        </span>
+                        <span className="text-[10px] text-slate-400">{formatRelativeDate(m.created_at)}</span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteMatiere(m)}
+                      disabled={m.total_epreuves > 0}
+                      className={`p-2.5 rounded-xl transition-colors shrink-0 active:scale-95 ${
+                        m.total_epreuves > 0 ? 'text-slate-300 cursor-not-allowed' : 'text-red-500 bg-red-50 hover:bg-red-100'
+                      }`}
+                      title={m.total_epreuves > 0 ? 'Matière liée à des épreuves' : 'Supprimer'}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* ── 2. VUE DESKTOP : Table complète (écrans >= md) ── */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-slate-100 bg-slate-50/70 text-[11px] font-bold uppercase tracking-wider text-slate-500">
@@ -1457,46 +1716,40 @@ export default function AdminPage() {
         {/* ============================================================ */}
         {mainTab === 'utilisateurs' && (
           <div className="space-y-6">
-            {/* Formulaire ajout admin rapide */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                <h3 className="text-sm font-bold text-ink-primary flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-indigo-600" />
-                  <span>Promouvoir un nouvel administrateur</span>
-                </h3>
-                {!isCallerSuperAdmin && (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
-                    <AlertTriangle className="w-3 h-3 text-amber-600" />
-                    <span>Réservé au Fondateur</span>
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-slate-400 mb-4">
-                {isCallerSuperAdmin
-                  ? "Entrez l'adresse Google de l'étudiant ou du délégué pour lui accorder les droits d'administration complets."
-                  : "Seul le Fondateur dispose de l'autorisation d'accorder ou de retirer des droits d'administration."}
-              </p>
+            {/* Formulaire ajout admin rapide — visible UNIQUEMENT pour le Fondateur */}
+            {isCallerSuperAdmin && (
+              <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+                <div className="mb-2">
+                  <h3 className="text-sm font-bold text-ink-primary flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                    <span>Promouvoir un nouvel administrateur</span>
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-400 mb-4">
+                  Entrez l&apos;adresse Google de l&apos;étudiant ou du délégué pour lui accorder les droits d&apos;administration complets.
+                </p>
 
-              <form onSubmit={handleAddAdminByEmail} className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  value={newAdminEmail}
-                  onChange={(e) => setNewAdminEmail(e.target.value)}
-                  placeholder="etudiant.mbh@gmail.com..."
-                  required
-                  disabled={!isCallerSuperAdmin || isAddingAdmin}
-                  className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand disabled:opacity-50 disabled:cursor-not-allowed"
-                />
-                <button
-                  type="submit"
-                  disabled={!isCallerSuperAdmin || isAddingAdmin}
-                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isAddingAdmin ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
-                  <span>Accorder le rôle Admin</span>
-                </button>
-              </form>
-            </div>
+                <form onSubmit={handleAddAdminByEmail} className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    value={newAdminEmail}
+                    onChange={(e) => setNewAdminEmail(e.target.value)}
+                    placeholder="etudiant.mbh@gmail.com..."
+                    required
+                    disabled={isAddingAdmin}
+                    className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand disabled:opacity-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isAddingAdmin}
+                    className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {isAddingAdmin ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
+                    <span>Accorder le rôle Admin</span>
+                  </button>
+                </form>
+              </div>
+            )}
 
             {/* Liste des utilisateurs */}
             <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
@@ -1509,7 +1762,71 @@ export default function AdminPage() {
                 </span>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* ── 1. VUE MOBILE : Cartes utilisateurs (écrans < md) ── */}
+              <div className="md:hidden divide-y divide-slate-100">
+                {usersList.map((u) => {
+                  const isTargetSuperAdmin = Boolean(u.is_super_admin || checkIsSuperAdmin(u.email));
+                  const isSelf = Boolean(session?.user?.email && u.email.toLowerCase() === session.user.email.toLowerCase());
+
+                  return (
+                    <div key={u.email} className="p-4 space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <AdminUserAvatar src={u.image} nom={u.nom} />
+                          <div className="min-w-0">
+                            <span className="font-bold text-sm text-ink-primary block truncate">{u.nom}</span>
+                            <span className="text-xs text-slate-400 block truncate">{u.email}</span>
+                          </div>
+                        </div>
+                        <div className="shrink-0">
+                          {/* Badge rôle — le Fondateur voit son propre badge spécial, les autres voient Admin/Étudiant */}
+                          {isTargetSuperAdmin && isCallerSuperAdmin ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-300">
+                              <Sparkles className="w-3 h-3 text-amber-600" />
+                              <span>Fondateur</span>
+                            </span>
+                          ) : u.role === 'admin' ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                              <ShieldAlert className="w-3 h-3 text-indigo-600" />
+                              <span>Administrateur</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
+                              <User className="w-3 h-3 text-slate-400" />
+                              <span>Étudiant</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
+                        <span className="font-medium text-slate-600">{u.total_depots} épreuve(s) déposée(s)</span>
+                        <span className="text-[11px] text-slate-400">Vu {formatRelativeDate(u.last_login)}</span>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-50 flex items-center justify-end">
+                        {isSelf ? (
+                          <span className="text-xs font-semibold text-slate-400 italic">Votre compte</span>
+                        ) : isCallerSuperAdmin && !isTargetSuperAdmin ? (
+                          <button
+                            type="button"
+                            onClick={() => handleToggleUserRole(u)}
+                            className={`w-full py-2 rounded-xl text-xs font-bold transition-all active:scale-95 ${u.role === 'admin'
+                              ? 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200'
+                              : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                              }`}
+                          >
+                            {u.role === 'admin' ? 'Rétrograder en Étudiant' : 'Nommer Administrateur'}
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* ── 2. VUE DESKTOP : Table complète (écrans >= md) ── */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-slate-100 bg-slate-50/70 text-[11px] font-bold uppercase tracking-wider text-slate-500">
@@ -1538,7 +1855,8 @@ export default function AdminPage() {
                           </td>
 
                           <td className="py-3.5 px-4">
-                            {isTargetSuperAdmin ? (
+                            {/* Rôle — le Fondateur voit son badge spécial, les autres voient Admin/Étudiant */}
+                            {isTargetSuperAdmin && isCallerSuperAdmin ? (
                               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-300">
                                 <Sparkles className="w-3 h-3 text-amber-600" />
                                 <span>Fondateur</span>
@@ -1565,20 +1883,9 @@ export default function AdminPage() {
                           </td>
 
                           <td className="py-3.5 px-6 text-right">
-                            {isTargetSuperAdmin ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200">
-                                <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
-                                <span>Fondateur</span>
-                              </span>
-                            ) : isSelf ? (
-                              <span className="text-[11px] font-semibold text-slate-400 italic">
-                                Votre compte
-                              </span>
-                            ) : !isCallerSuperAdmin ? (
-                              <span className="text-[11px] font-medium text-slate-400 italic">
-                                {u.role === 'admin' ? 'Administrateur' : 'Étudiant'}
-                              </span>
-                            ) : (
+                            {isSelf ? (
+                              <span className="text-[11px] font-semibold text-slate-400 italic">Votre compte</span>
+                            ) : isCallerSuperAdmin && !isTargetSuperAdmin ? (
                               <button
                                 type="button"
                                 onClick={() => handleToggleUserRole(u)}
@@ -1589,7 +1896,7 @@ export default function AdminPage() {
                               >
                                 {u.role === 'admin' ? 'Rétrograder en Étudiant' : 'Nommer Administrateur'}
                               </button>
-                            )}
+                            ) : null}
                           </td>
                         </tr>
                       );
@@ -1632,8 +1939,70 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Table des logs */}
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+            {/* VUE MOBILE : Cartes de flux d'activité tactiles */}
+            <div className="md:hidden space-y-3">
+              {connexionsList.length === 0 ? (
+                <div className="bg-white rounded-2xl border border-slate-200/80 p-8 text-center text-slate-400 text-xs shadow-xs">
+                  Aucun historique de connexion enregistré.
+                </div>
+              ) : (
+                connexionsList.map((log) => {
+                  const isMobileDevice = /mobile|android|iphone|ipad/i.test(log.user_agent || '');
+                  const formattedDate = new Date(log.created_at).toLocaleString('fr-FR', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  });
+
+                  return (
+                    <div
+                      key={log.id}
+                      className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2.5"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-xs shrink-0 border border-slate-200">
+                            {(log.user_nom || log.user_email || 'U').charAt(0).toUpperCase()}
+                          </div>
+                          <div className="min-w-0">
+                            <span className="font-bold text-ink-primary text-xs block truncate">
+                              {log.user_nom || 'Étudiant MBH'}
+                            </span>
+                            <span className="text-[11px] text-slate-400 block truncate">
+                              {log.user_email}
+                            </span>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-medium text-slate-400 shrink-0 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">
+                          {formattedDate}
+                        </span>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                        <div className="flex items-center gap-1.5 text-slate-500">
+                          {isMobileDevice ? (
+                            <Smartphone className="w-3.5 h-3.5 text-brand shrink-0" />
+                          ) : (
+                            <Monitor className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          )}
+                          <span className="truncate max-w-[170px]">
+                            {isMobileDevice ? 'Mobile' : 'Ordinateur'} {log.ip_address ? `• ${log.ip_address}` : ''}
+                          </span>
+                        </div>
+
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-slate-100 text-slate-700">
+                          {log.provider}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* VUE BUREAU : Tableau complet */}
+            <div className="hidden md:block bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
@@ -1755,56 +2124,59 @@ export default function AdminPage() {
       {/* MODALE 1 : APERÇU FICHIER */}
       {/* ============================================================ */}
       {previewEpreuve && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-bold text-ink-primary">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-4xl max-h-[92vh] sm:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom-6 sm:slide-in-from-bottom-0 sm:zoom-in-95 duration-200">
+            {/* Poignée tiroir mobile */}
+            <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0" />
+
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between shrink-0">
+              <div className="min-w-0 pr-2">
+                <h3 className="text-sm sm:text-base font-bold text-ink-primary truncate">
                   {previewEpreuve.matiere_nom} — {previewEpreuve.niveau}
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-[11px] sm:text-xs text-slate-400 truncate">
                   {previewEpreuve.type} • {previewEpreuve.annee_academique}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setPreviewEpreuve(null)}
-                className="p-2 text-slate-400 hover:text-slate-600 rounded-xl"
+                className="p-2 text-slate-400 hover:text-slate-600 rounded-xl shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="flex-1 overflow-auto p-4 bg-slate-900 flex items-center justify-center min-h-[450px]">
+            <div className="flex-1 overflow-auto p-2 sm:p-4 bg-slate-900 flex items-center justify-center min-h-[300px] sm:min-h-[450px]">
               {previewEpreuve.type_fichier === 'pdf' ? (
                 <iframe
                   src={`https://docs.google.com/viewer?url=${encodeURIComponent(previewEpreuve.cloudinary_url)}&embedded=true`}
                   title="Aperçu PDF"
-                  className="w-full h-[600px] border-0 rounded-xl"
+                  className="w-full h-[55vh] sm:h-[600px] border-0 rounded-xl"
                 />
               ) : (
                 <img
                   src={previewEpreuve.cloudinary_url}
                   alt={previewEpreuve.matiere_nom}
-                  className="max-h-[600px] w-auto object-contain rounded-xl"
+                  className="max-h-[55vh] sm:max-h-[600px] w-auto object-contain rounded-xl"
                 />
               )}
             </div>
 
-            <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <div className="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 shrink-0">
               <a
                 href={previewEpreuve.cloudinary_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand hover:underline"
+                className="inline-flex items-center justify-center gap-1.5 py-2 sm:py-0 text-xs font-bold text-brand hover:underline"
               >
-                <span>Ouvrir le fichier dans un nouvel onglet</span>
+                <span>Ouvrir dans un nouvel onglet</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
               <button
                 type="button"
                 onClick={() => setPreviewEpreuve(null)}
-                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-ink-primary text-xs font-bold rounded-xl transition-colors"
+                className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-ink-primary text-xs font-bold rounded-xl transition-colors text-center"
               >
                 Fermer
               </button>
@@ -1817,23 +2189,26 @@ export default function AdminPage() {
       {/* MODALE 2 : ÉDITION COMPLÈTE DES DÉTAILS DE LA SOUMISSION */}
       {/* ============================================================ */}
       {editingEpreuve && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl w-full max-w-xl overflow-hidden shadow-2xl p-6 sm:p-8">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-              <h3 className="text-base font-bold text-ink-primary flex items-center gap-2">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-xl max-h-[92vh] sm:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl p-4 sm:p-8 animate-in slide-in-from-bottom-6 sm:slide-in-from-bottom-0 sm:zoom-in-95 duration-200">
+            {/* Poignée tiroir mobile */}
+            <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-2 sm:hidden shrink-0" />
+
+            <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-100 mb-3 sm:mb-5 shrink-0">
+              <h3 className="text-sm sm:text-base font-bold text-ink-primary flex items-center gap-2">
                 <Edit3 className="w-4 h-4 text-brand" />
-                <span>Modifier les détails de la soumission</span>
+                <span>Modifier les détails</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setEditingEpreuve(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg"
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEdit} className="space-y-4 text-xs">
+            <form onSubmit={handleSaveEdit} className="space-y-3.5 sm:space-y-4 text-xs overflow-y-auto flex-1 pr-1">
               {/* Titre / précision */}
               <div>
                 <label className="block font-bold text-ink-primary mb-1">Titre / Précision de l&apos;épreuve</label>
@@ -1842,7 +2217,7 @@ export default function AdminPage() {
                   value={editTitre}
                   onChange={(e) => setEditTitre(e.target.value)}
                   placeholder="Ex: Devoir de synthèse n°1, Session normale..."
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                 />
               </div>
 
@@ -1854,18 +2229,18 @@ export default function AdminPage() {
                   value={editMatiereNom}
                   onChange={(e) => setEditMatiereNom(e.target.value)}
                   required
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                 />
               </div>
 
               {/* 2 colonnes : Niveau & Année */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-ink-primary mb-1">Niveau</label>
                   <select
                     value={editNiveau}
                     onChange={(e) => setEditNiveau(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                   >
                     {VALID_NIVEAUX_PREDEFINIS.map((n) => (
                       <option key={n} value={n}>{n}</option>
@@ -1878,7 +2253,7 @@ export default function AdminPage() {
                   <select
                     value={editAnnee}
                     onChange={(e) => setEditAnnee(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                   >
                     {academicYears.map((yr) => (
                       <option key={yr} value={yr}>{yr}</option>
@@ -1887,14 +2262,14 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* 2 colonnes : Type d'épreuve (devoir / rattrapage) & Statut */}
-              <div className="grid grid-cols-2 gap-3">
+              {/* 2 colonnes : Type d'épreuve & Statut */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-ink-primary mb-1">Type d&apos;épreuve</label>
                   <select
                     value={editType}
                     onChange={(e) => setEditType(e.target.value as TypeEpreuve)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand capitalize"
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand capitalize min-h-[42px]"
                   >
                     {VALID_TYPES.map((t) => (
                       <option key={t} value={t}>{t}</option>
@@ -1907,7 +2282,7 @@ export default function AdminPage() {
                   <select
                     value={editStatut}
                     onChange={(e) => setEditStatut(e.target.value as StatutEpreuve)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                   >
                     <option value="approuve">En ligne (approuvé)</option>
                     <option value="en_attente">À valider (en attente)</option>
@@ -1917,14 +2292,14 @@ export default function AdminPage() {
               </div>
 
               {/* 2 colonnes : Auteur Nom & Email */}
-              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
                 <div>
                   <label className="block font-bold text-ink-primary mb-1">Nom de l&apos;auteur</label>
                   <input
                     type="text"
                     value={editUploaderNom}
                     onChange={(e) => setEditUploaderNom(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                   />
                 </div>
                 <div>
@@ -1933,16 +2308,16 @@ export default function AdminPage() {
                     type="email"
                     value={editUploaderEmail}
                     onChange={(e) => setEditUploaderEmail(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand"
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl font-medium focus:outline-none focus:ring-1 focus:ring-brand min-h-[42px]"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 flex items-center justify-end gap-2 border-t border-slate-100">
+              <div className="pt-4 flex items-center justify-end gap-2 border-t border-slate-100 shrink-0 bg-white">
                 <button
                   type="button"
                   onClick={() => setEditingEpreuve(null)}
-                  className="px-4 py-2 text-xs font-bold text-ink-secondary hover:bg-slate-100 rounded-xl transition-colors"
+                  className="px-4 py-2.5 text-xs font-bold text-ink-secondary hover:bg-slate-100 rounded-xl transition-colors"
                 >
                   Annuler
                 </button>
@@ -1959,7 +2334,7 @@ export default function AdminPage() {
                   ) : (
                     <>
                       <Check className="w-3.5 h-3.5" />
-                      <span>Enregistrer les modifications</span>
+                      <span>Enregistrer</span>
                     </>
                   )}
                 </button>
@@ -1970,16 +2345,16 @@ export default function AdminPage() {
       )}
 
       {/* ============================================================ */}
-      {/* BARRE D'ACTIONS EN MASSE (flottante, apparaît quand des items sont sélectionnés) */}
+      {/* BARRE D'ACTIONS EN MASSE (flottante, adaptée mobile) */}
       {/* ============================================================ */}
       {selectedIds.size > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 animate-in slide-in-from-bottom-4 duration-300">
-          <div className="flex items-center gap-2 bg-slate-900 text-white rounded-2xl shadow-2xl px-4 py-3 border border-white/10">
+        <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1.25rem)] sm:w-auto max-w-2xl animate-in slide-in-from-bottom-4 duration-300">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-900/95 backdrop-blur-md text-white rounded-2xl shadow-2xl px-3 sm:px-4 py-2.5 sm:py-3 border border-white/10 overflow-x-auto no-scrollbar">
             {/* Compteur & désélectionner */}
-            <div className="flex items-center gap-2 pr-3 border-r border-white/20">
+            <div className="flex items-center gap-1.5 sm:gap-2 pr-2 sm:pr-3 border-r border-white/20 shrink-0">
               <CheckSquare className="w-4 h-4 text-brand" />
-              <span className="text-xs font-bold">
-                {selectedIds.size} sélectionnée{selectedIds.size > 1 ? 's' : ''}
+              <span className="text-xs font-bold whitespace-nowrap">
+                {selectedIds.size} <span className="hidden sm:inline">sélectionnée{selectedIds.size > 1 ? 's' : ''}</span>
               </span>
               <button
                 type="button"
@@ -1996,15 +2371,15 @@ export default function AdminPage() {
               type="button"
               onClick={handleExportZip}
               disabled={isBulkLoading || isExportingZip}
-              title="Télécharger la sélection en archive ZIP (sujet + corrigé fusionné)"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand hover:bg-brand-hover text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-xs"
+              title="Télécharger la sélection en archive ZIP"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-brand hover:bg-brand-hover text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-xs shrink-0"
             >
               {isExportingZip ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <Archive className="w-3.5 h-3.5 text-emerald-300" />
               )}
-              <span>Exporter ZIP ({selectedIds.size})</span>
+              <span className="whitespace-nowrap"><span className="hidden sm:inline">Exporter </span>ZIP</span>
             </button>
 
             {/* Valider en masse */}
@@ -2013,14 +2388,14 @@ export default function AdminPage() {
               onClick={() => handleBulkAction('approuve')}
               disabled={isBulkLoading}
               title="Valider toutes les sélectionnées"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shrink-0"
             >
               {isBulkLoading ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <CheckCircle2 className="w-3.5 h-3.5" />
               )}
-              <span>Valider tout</span>
+              <span className="whitespace-nowrap">Valider<span className="hidden sm:inline"> tout</span></span>
             </button>
 
             {/* Rejeter en masse */}
@@ -2029,35 +2404,35 @@ export default function AdminPage() {
               onClick={() => handleBulkAction('rejete')}
               disabled={isBulkLoading}
               title="Rejeter toutes les sélectionnées"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shrink-0"
             >
               {isBulkLoading ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <XCircle className="w-3.5 h-3.5" />
               )}
-              <span>Rejeter tout</span>
+              <span className="whitespace-nowrap">Rejeter<span className="hidden sm:inline"> tout</span></span>
             </button>
 
             {/* Supprimer en masse */}
             {bulkDeleteConfirm ? (
-              <div className="flex items-center gap-1.5">
-                <span className="text-[10px] text-red-400 font-bold animate-pulse">Confirmer ?</span>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="text-[10px] text-red-400 font-bold animate-pulse whitespace-nowrap">Sûr ?</span>
                 <button
                   type="button"
                   onClick={() => handleBulkAction('delete')}
                   disabled={isBulkLoading}
-                  className="flex items-center gap-1 px-2.5 py-1.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50"
+                  className="flex items-center gap-1 px-2.5 py-1.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shrink-0"
                 >
                   {isBulkLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                  <span>Oui, supprimer</span>
+                  <span className="whitespace-nowrap">Oui</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setBulkDeleteConfirm(false)}
-                  className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl transition-colors"
+                  className="px-2 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl transition-colors shrink-0"
                 >
-                  Annuler
+                  Non
                 </button>
               </div>
             ) : (
@@ -2066,10 +2441,10 @@ export default function AdminPage() {
                 onClick={() => setBulkDeleteConfirm(true)}
                 disabled={isBulkLoading}
                 title="Supprimer définitivement toutes les sélectionnées"
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white text-xs font-bold rounded-xl border border-red-500/30 transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white text-xs font-bold rounded-xl border border-red-500/30 transition-colors disabled:opacity-50 shrink-0"
               >
                 <Trash2 className="w-3.5 h-3.5" />
-                <span>Supprimer</span>
+                <span className="whitespace-nowrap">Supprimer</span>
               </button>
             )}
           </div>
