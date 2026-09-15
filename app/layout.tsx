@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     'Plateforme collaborative centralisant les annales (devoirs, examens, rattrapages) de la filière Maintenance Biomédicale et Hospitalière (MBH), EPAC Bénin. Accès 100% libre et gratuit.',
   keywords: ['annale', 'MBH', 'EPAC', 'Bénin', 'biomédical', 'épreuves', 'examens', 'devoirs'],
   authors: [{ name: 'Elon G. — MBH EPAC' }],
+  referrer: 'no-referrer',
   icons: {
     icon: '/favicon.svg',
     apple: '/logo.svg',

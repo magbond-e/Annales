@@ -61,10 +61,11 @@ export const authOptions: NextAuthOptions = {
       }
       if (token.email) {
         try {
-          const { isUserAdminAsync } = await import('@/lib/utils/admin');
+          const { isUserAdminAsync, isSuperAdmin } = await import('@/lib/utils/admin');
           const adminCheck = await isUserAdminAsync(token.email as string);
           token.isAdmin = adminCheck;
           token.role = adminCheck ? 'admin' : 'etudiant';
+          token.isSuperAdmin = isSuperAdmin(token.email as string);
         } catch (e) {
           console.error('Erreur vérification admin jwt callback:', e);
         }
@@ -78,6 +79,7 @@ export const authOptions: NextAuthOptions = {
         session.user.image = (token.picture as string) || null;
         session.user.role = token.role || (token.isAdmin ? 'admin' : 'etudiant');
         session.user.isAdmin = Boolean(token.isAdmin);
+        session.user.isSuperAdmin = Boolean(token.isSuperAdmin);
       }
       return session;
     },

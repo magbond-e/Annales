@@ -36,12 +36,21 @@ export async function POST(req: NextRequest) {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
+    const callerEmail = session?.user?.email?.trim().toLowerCase();
 
-    // Empêcher de rétrograder un compte admin principal fondateur
-    if (isSuperAdmin(normalizedEmail) && role === 'etudiant') {
+    // 1. Protection STRICTE et ABSOLUE du Fondateur
+    if (isSuperAdmin(normalizedEmail)) {
       return NextResponse.json(
-        { error: 'Impossible de retirer les droits d\'administrateur au compte principal fondateur.' },
-        { status: 400 }
+        { error: 'Action interdite' },
+        { status: 403 }
+      );
+    }
+
+    // 2. Seul le Super Administrateur (Fondateur) peut modifier les rôles (promouvoir ou rétrograder)
+    if (!isSuperAdmin(callerEmail)) {
+      return NextResponse.json(
+        { error: 'Action non autorisée : Seul le Super Administrateur (Fondateur) a le pouvoir de nommer ou rétrograder des administrateurs.' },
+        { status: 403 }
       );
     }
 

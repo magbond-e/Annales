@@ -10,6 +10,7 @@ declare module 'next-auth' {
       image?: string | null;
       role?: 'admin' | 'etudiant';
       isAdmin?: boolean;
+      isSuperAdmin?: boolean;
     } & DefaultSession['user'];
   }
 
@@ -20,6 +21,7 @@ declare module 'next-auth' {
     image?: string | null;
     role?: 'admin' | 'etudiant';
     isAdmin?: boolean;
+    isSuperAdmin?: boolean;
   }
 }
 
@@ -27,5 +29,6 @@ declare module 'next-auth/jwt' {
   interface JWT {
     role?: 'admin' | 'etudiant';
     isAdmin?: boolean;
+    isSuperAdmin?: boolean;
   }
 }

@@ -58,10 +58,33 @@ interface UserAccount {
   nom: string;
   image?: string;
   role: 'admin' | 'etudiant';
+  is_super_admin?: boolean;
   niveau?: string;
   created_at: string;
   last_login: string;
   total_depots: number;
+}
+
+function AdminUserAvatar({ src, nom }: { src?: string; nom: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (src && !hasError) {
+    return (
+      <img
+        src={src}
+        alt={nom}
+        referrerPolicy="no-referrer"
+        onError={() => setHasError(true)}
+        className="w-8 h-8 rounded-full object-cover border border-slate-200 shadow-2xs"
+      />
+    );
+  }
+
+  return (
+    <div className="w-8 h-8 rounded-full bg-brand-50 text-brand font-bold flex items-center justify-center text-xs">
+      {nom?.[0]?.toUpperCase() || 'U'}
+    </div>
+  );
 }
 
 interface ConnexionLog {
@@ -87,6 +110,7 @@ export default function AdminPage() {
   const router = useRouter();
 
   const userIsAdmin = Boolean(session?.user?.isAdmin || session?.user?.role === 'admin');
+  const isCallerSuperAdmin = Boolean(session?.user?.isSuperAdmin || checkIsSuperAdmin(session?.user?.email));
 
   // Navigation par onglets
   const [mainTab, setMainTab] = useState<'soumissions' | 'import_lot' | 'matieres' | 'utilisateurs' | 'connexions' | 'stats'>('soumissions');
@@ -837,9 +861,8 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
             <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">À Valider</span>
-              <span className={`text-2xl font-black mt-1 block ${
-                (derivedStats?.pendingCount ?? stats.pendingCount) > 0 ? 'text-amber-600' : 'text-slate-700'
-              }`}>
+              <span className={`text-2xl font-black mt-1 block ${(derivedStats?.pendingCount ?? stats.pendingCount) > 0 ? 'text-amber-600' : 'text-slate-700'
+                }`}>
                 {derivedStats?.pendingCount ?? stats.pendingCount}
               </span>
             </div>
@@ -886,9 +909,8 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
             <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">À Valider</span>
-              <span className={`text-2xl font-black mt-1 block ${
-                epreuves.filter((e) => e.statut === 'en_attente').length > 0 ? 'text-amber-600' : 'text-slate-700'
-              }`}>
+              <span className={`text-2xl font-black mt-1 block ${epreuves.filter((e) => e.statut === 'en_attente').length > 0 ? 'text-amber-600' : 'text-slate-700'
+                }`}>
                 {epreuves.filter((e) => e.statut === 'en_attente').length}
               </span>
             </div>
@@ -917,11 +939,10 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setMainTab('soumissions')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              mainTab === 'soumissions'
-                ? 'bg-brand text-white shadow-sm shadow-brand/20'
-                : 'text-ink-secondary hover:bg-slate-100'
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'soumissions'
+              ? 'bg-brand text-white shadow-sm shadow-brand/20'
+              : 'text-ink-secondary hover:bg-slate-100'
+              }`}
           >
             <FolderOpen className="w-4 h-4" />
             <span>Soumissions</span>
@@ -935,11 +956,10 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setMainTab('import_lot')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              mainTab === 'import_lot'
-                ? 'bg-brand text-white shadow-sm shadow-brand/20'
-                : 'text-ink-secondary hover:bg-slate-100'
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'import_lot'
+              ? 'bg-brand text-white shadow-sm shadow-brand/20'
+              : 'text-ink-secondary hover:bg-slate-100'
+              }`}
           >
             <UploadCloud className="w-4 h-4 text-emerald-400" />
             <span>Import en lot</span>
@@ -951,11 +971,10 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setMainTab('matieres')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              mainTab === 'matieres'
-                ? 'bg-brand text-white shadow-sm shadow-brand/20'
-                : 'text-ink-secondary hover:bg-slate-100'
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'matieres'
+              ? 'bg-brand text-white shadow-sm shadow-brand/20'
+              : 'text-ink-secondary hover:bg-slate-100'
+              }`}
           >
             <BookOpen className="w-4 h-4" />
             <span>Matières ({matieresList.length})</span>
@@ -964,11 +983,10 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setMainTab('utilisateurs')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              mainTab === 'utilisateurs'
-                ? 'bg-brand text-white shadow-sm shadow-brand/20'
-                : 'text-ink-secondary hover:bg-slate-100'
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'utilisateurs'
+              ? 'bg-brand text-white shadow-sm shadow-brand/20'
+              : 'text-ink-secondary hover:bg-slate-100'
+              }`}
           >
             <Users className="w-4 h-4" />
             <span>Comptes ({usersList.length})</span>
@@ -977,11 +995,10 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setMainTab('connexions')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              mainTab === 'connexions'
-                ? 'bg-brand text-white shadow-sm shadow-brand/20'
-                : 'text-ink-secondary hover:bg-slate-100'
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'connexions'
+              ? 'bg-brand text-white shadow-sm shadow-brand/20'
+              : 'text-ink-secondary hover:bg-slate-100'
+              }`}
           >
             <History className="w-4 h-4" />
             <span>Historique Connexions</span>
@@ -990,11 +1007,10 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setMainTab('stats')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              mainTab === 'stats'
-                ? 'bg-brand text-white shadow-sm shadow-brand/20'
-                : 'text-ink-secondary hover:bg-slate-100'
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${mainTab === 'stats'
+              ? 'bg-brand text-white shadow-sm shadow-brand/20'
+              : 'text-ink-secondary hover:bg-slate-100'
+              }`}
           >
             <BarChart3 className="w-4 h-4" />
             <span>Statistiques & Vue globale</span>
@@ -1013,11 +1029,10 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('en_attente')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    activeTab === 'en_attente'
-                      ? 'bg-amber-100 text-amber-900 border border-amber-300 shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'en_attente'
+                    ? 'bg-amber-100 text-amber-900 border border-amber-300 shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-100'
+                    }`}
                 >
                   <Clock className="w-3.5 h-3.5 text-amber-600" />
                   <span>À valider</span>
@@ -1031,11 +1046,10 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('approuve')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    activeTab === 'approuve'
-                      ? 'bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'approuve'
+                    ? 'bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-100'
+                    }`}
                 >
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>En ligne</span>
@@ -1044,11 +1058,10 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('rejete')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    activeTab === 'rejete'
-                      ? 'bg-red-100 text-red-900 border border-red-300 shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'rejete'
+                    ? 'bg-red-100 text-red-900 border border-red-300 shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-100'
+                    }`}
                 >
                   <XCircle className="w-3.5 h-3.5 text-red-600" />
                   <span>Rejetées</span>
@@ -1057,11 +1070,10 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('all')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    activeTab === 'all'
-                      ? 'bg-slate-200 text-slate-900 border border-slate-300 shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'all'
+                    ? 'bg-slate-200 text-slate-900 border border-slate-300 shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-100'
+                    }`}
                 >
                   <span>Toutes ({stats?.totalEpreuves || 0})</span>
                 </button>
@@ -1160,9 +1172,8 @@ export default function AdminPage() {
                         return (
                           <tr
                             key={epreuve.id}
-                            className={`hover:bg-slate-50/60 transition-colors ${
-                              isSelected ? 'bg-brand/5 border-l-2 border-l-brand' : ''
-                            }`}
+                            className={`hover:bg-slate-50/60 transition-colors ${isSelected ? 'bg-brand/5 border-l-2 border-l-brand' : ''
+                              }`}
                           >
                             {/* Checkbox sélection */}
                             <td className="py-3.5 pl-4 pr-2">
@@ -1182,9 +1193,8 @@ export default function AdminPage() {
                             {/* Épreuve & Titre */}
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-2.5">
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                                  epreuve.type_fichier === 'pdf' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
-                                }`}>
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${epreuve.type_fichier === 'pdf' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
+                                  }`}>
                                   {epreuve.type_fichier === 'pdf' ? <FileText className="w-4 h-4" /> : <ImageIcon className="w-4 h-4" />}
                                 </div>
                                 <div className="max-w-[200px] truncate">
@@ -1210,9 +1220,8 @@ export default function AdminPage() {
 
                             {/* Type & Année */}
                             <td className="py-3.5 px-3">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${
-                                epreuve.type === 'devoir' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
-                              }`}>
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold capitalize ${epreuve.type === 'devoir' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
+                                }`}>
                                 {epreuve.type}
                               </span>
                               <span className="text-[11px] text-slate-500 block mt-0.5">
@@ -1409,9 +1418,8 @@ export default function AdminPage() {
                           {m.nom}
                         </td>
                         <td className="py-3.5 px-4">
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            m.total_epreuves > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
-                          }`}>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${m.total_epreuves > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                            }`}>
                             {m.total_epreuves} épreuve(s)
                           </span>
                         </td>
@@ -1427,11 +1435,10 @@ export default function AdminPage() {
                             onClick={() => handleDeleteMatiere(m)}
                             disabled={m.total_epreuves > 0}
                             title={m.total_epreuves > 0 ? 'Impossible de supprimer une matière liée à des épreuves' : 'Supprimer'}
-                            className={`p-1.5 rounded-lg transition-colors ${
-                              m.total_epreuves > 0
-                                ? 'text-slate-300 cursor-not-allowed'
-                                : 'text-red-500 hover:bg-red-50'
-                            }`}
+                            className={`p-1.5 rounded-lg transition-colors ${m.total_epreuves > 0
+                              ? 'text-slate-300 cursor-not-allowed'
+                              : 'text-red-500 hover:bg-red-50'
+                              }`}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -1452,12 +1459,22 @@ export default function AdminPage() {
           <div className="space-y-6">
             {/* Formulaire ajout admin rapide */}
             <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
-              <h3 className="text-sm font-bold text-ink-primary flex items-center gap-2 mb-2">
-                <ShieldCheck className="w-4 h-4 text-indigo-600" />
-                <span>Promouvoir un nouvel administrateur</span>
-              </h3>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                <h3 className="text-sm font-bold text-ink-primary flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                  <span>Promouvoir un nouvel administrateur</span>
+                </h3>
+                {!isCallerSuperAdmin && (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                    <AlertTriangle className="w-3 h-3 text-amber-600" />
+                    <span>Réservé au Fondateur</span>
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-slate-400 mb-4">
-                Entrez l&apos;adresse Google de l&apos;étudiant ou du délégué pour lui accorder les droits d&apos;administration complets.
+                {isCallerSuperAdmin
+                  ? "Entrez l'adresse Google de l'étudiant ou du délégué pour lui accorder les droits d'administration complets."
+                  : "Seul le Fondateur dispose de l'autorisation d'accorder ou de retirer des droits d'administration."}
               </p>
 
               <form onSubmit={handleAddAdminByEmail} className="flex flex-col sm:flex-row gap-3">
@@ -1467,12 +1484,13 @@ export default function AdminPage() {
                   onChange={(e) => setNewAdminEmail(e.target.value)}
                   placeholder="etudiant.mbh@gmail.com..."
                   required
-                  className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
+                  disabled={!isCallerSuperAdmin || isAddingAdmin}
+                  className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
                   type="submit"
-                  disabled={isAddingAdmin}
-                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  disabled={!isCallerSuperAdmin || isAddingAdmin}
+                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isAddingAdmin ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
                   <span>Accorder le rôle Admin</span>
@@ -1504,20 +1522,14 @@ export default function AdminPage() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-xs">
                     {usersList.map((u) => {
-                      const isSuperAdmin = checkIsSuperAdmin(u.email);
+                      const isTargetSuperAdmin = Boolean(u.is_super_admin || checkIsSuperAdmin(u.email));
+                      const isSelf = Boolean(session?.user?.email && u.email.toLowerCase() === session.user.email.toLowerCase());
 
                       return (
-
                         <tr key={u.email} className="hover:bg-slate-50/60 transition-colors">
                           <td className="py-3.5 px-6">
                             <div className="flex items-center gap-3">
-                              {u.image ? (
-                                <img src={u.image} alt={u.nom} className="w-8 h-8 rounded-full object-cover border border-slate-200" />
-                              ) : (
-                                <div className="w-8 h-8 rounded-full bg-brand-50 text-brand font-bold flex items-center justify-center text-xs">
-                                  {u.nom[0]?.toUpperCase() || 'U'}
-                                </div>
-                              )}
+                              <AdminUserAvatar src={u.image} nom={u.nom} />
                               <div>
                                 <span className="font-bold text-ink-primary block">{u.nom}</span>
                                 <span className="text-[11px] text-slate-400">{u.email}</span>
@@ -1526,7 +1538,12 @@ export default function AdminPage() {
                           </td>
 
                           <td className="py-3.5 px-4">
-                            {u.role === 'admin' ? (
+                            {isTargetSuperAdmin ? (
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-300">
+                                <Sparkles className="w-3 h-3 text-amber-600" />
+                                <span>Fondateur</span>
+                              </span>
+                            ) : u.role === 'admin' ? (
                               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                                 <ShieldAlert className="w-3 h-3 text-indigo-600" />
                                 <span>Administrateur</span>
@@ -1548,17 +1565,27 @@ export default function AdminPage() {
                           </td>
 
                           <td className="py-3.5 px-6 text-right">
-                            {isSuperAdmin ? (
-                              <span className="text-[11px] font-bold text-slate-400 italic">Fondateur</span>
+                            {isTargetSuperAdmin ? (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200">
+                                <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+                                <span>Fondateur</span>
+                              </span>
+                            ) : isSelf ? (
+                              <span className="text-[11px] font-semibold text-slate-400 italic">
+                                Votre compte
+                              </span>
+                            ) : !isCallerSuperAdmin ? (
+                              <span className="text-[11px] font-medium text-slate-400 italic">
+                                {u.role === 'admin' ? 'Administrateur' : 'Étudiant'}
+                              </span>
                             ) : (
                               <button
                                 type="button"
                                 onClick={() => handleToggleUserRole(u)}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                                  u.role === 'admin'
-                                    ? 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200'
-                                    : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
-                                }`}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${u.role === 'admin'
+                                  ? 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200'
+                                  : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                                  }`}
                               >
                                 {u.role === 'admin' ? 'Rétrograder en Étudiant' : 'Nommer Administrateur'}
                               </button>

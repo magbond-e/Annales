@@ -43,7 +43,11 @@ export function getStaticAdminEmails(): Set<string> {
 export function isSuperAdmin(email?: string | null): boolean {
   if (!email) return false;
   const normalized = email.trim().toLowerCase();
-  const superAdminEnv = process.env.SUPER_ADMIN_EMAIL?.trim().toLowerCase();
+  const superAdminEnv = (
+    process.env.SUPER_ADMIN_EMAIL ||
+    process.env.NEXT_PUBLIC_SUPER_ADMIN_EMAIL ||
+    process.env.ADMIN_EMAIL
+  )?.trim().toLowerCase();
   return Boolean(superAdminEnv && normalized === superAdminEnv);
 }
 

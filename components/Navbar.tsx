@@ -177,13 +177,21 @@ export function Navbar() {
                       <img
                         src={session.user.image}
                         alt={session.user.name || 'Profil'}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLElement).style.display = 'none';
+                          const fallback = e.currentTarget.nextElementSibling as HTMLElement | null;
+                          if (fallback) fallback.style.display = 'flex';
+                        }}
                         className="w-8 h-8 rounded-full object-cover border border-slate-100 shadow-xs"
                       />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-teal-700 text-white flex items-center justify-center text-xs font-bold shadow-xs">
-                        {(session.user?.name?.[0] || 'E').toUpperCase()}
-                      </div>
-                    )}
+                    ) : null}
+                    <div
+                      style={{ display: session.user?.image ? 'none' : 'flex' }}
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-teal-700 text-white items-center justify-center text-xs font-bold shadow-xs"
+                    >
+                      {(session.user?.name?.[0] || 'E').toUpperCase()}
+                    </div>
                     <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
                   </div>
 

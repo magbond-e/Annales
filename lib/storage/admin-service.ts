@@ -2,13 +2,14 @@ import { sql, isNeonConfigured } from '@/lib/db/neon';
 import { ensureAdminTablesExist } from '@/lib/db/schema-init';
 import { Matiere, Epreuve, StatutEpreuve, TypeEpreuve } from '@/types';
 import { normalizeMatiereNom } from '@/lib/utils/validation';
-import { isAdmin } from '@/lib/utils/admin';
+import { isAdmin, isSuperAdmin } from '@/lib/utils/admin';
 
 export interface UserAccount {
   email: string;
   nom: string;
   image?: string;
   role: 'admin' | 'etudiant';
+  is_super_admin?: boolean;
   niveau?: string;
   created_at: string;
   last_login: string;
@@ -127,6 +128,7 @@ export class AdminService {
         nom: r.nom,
         image: r.image || undefined,
         role: (r.role === 'admin' ? 'admin' : 'etudiant'),
+        is_super_admin: isSuperAdmin(r.email),
         niveau: r.niveau || undefined,
         created_at: r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at),
         last_login: r.last_login instanceof Date ? r.last_login.toISOString() : String(r.last_login),
