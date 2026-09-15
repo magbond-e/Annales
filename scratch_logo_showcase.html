@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Logo & Favicon Showcase - Annale229</title>
+  <style>
+    :root {
+      --bg-dark: #07191F;
+      --card-dark: #0B222A;
+      --brand-primary: #5346B9;
+      --brand-teal: #0F4C5C;
+      --accent-emerald: #10B981;
+    }
+    body {
+      background: #080d14;
+      color: #f0f6fc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 24px;
+      margin: 0;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 6px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    p.sub {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
+      font-size: 15px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .grid-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .showcase-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .showcase-card h4 {
+      margin: 16px 0 6px;
+      font-size: 15px;
+      color: #f3f4f6;
+    }
+    .showcase-card p {
+      margin: 0;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    /* Tab bar simulation */
+    .tab-bar-demo {
+      background: #1e293b;
+      border-radius: 12px 12px 0 0;
+      padding: 8px 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #334155;
+      border-bottom: none;
+    }
+    .browser-tab {
+      background: #0f172a;
+      border-radius: 8px 8px 0 0;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #e2e8f0;
+      border-top: 2px solid #5346B9;
+    }
+    .tab-content {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 0 0 12px 12px;
+      padding: 24px;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 13px;
+    }
+    /* Navbar preview */
+    .navbar-preview {
+      background: rgba(7, 25, 31, 0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Identité Visuelle Annale229 : Logo & Favicon</h1>
+    <p class="sub">Fond royal indigo/violet, voiles énergétiques or & corail, et livre ouvert académique stylisé.</p>
+
+    <div class="section-title">✨ 1. Le Logo Principal (App Icon & Master SVG)</div>
+    <div class="grid-showcase">
+      <!-- Master App Icon (Squircle) -->
+      <div class="showcase-card">
+        <div style="width: 160px; height: 160px; filter: drop-shadow(0 12px 28px rgba(83, 70, 185, 0.35));">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+            <defs>
+              <linearGradient id="bgMain" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5447C8"/>
+                <stop offset="100%" stop-color="#4336A4"/>
+              </linearGradient>
+              <linearGradient id="goldMain" x1="0%" y1="0%" x2="100%" y2="60%">
+                <stop offset="0%" stop-color="#FFBE2E"/>
+                <stop offset="100%" stop-color="#F59E0B"/>
+              </linearGradient>
+              <linearGradient id="coralMain" x1="0%" y1="0%" x2="100%" y2="60%">
+                <stop offset="0%" stop-color="#FF5C7E"/>
+                <stop offset="100%" stop-color="#F43F5E"/>
+              </linearGradient>
+            </defs>
+            <!-- Squircle container -->
+            <rect width="512" height="512" rx="108" fill="url(#bgMain)"/>
+            
+            <!-- Dynamic Swooshes (Envol de l'esprit & réussite) -->
+            <!-- Top Coral Swoosh -->
+            <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="url(#coralMain)" />
+            
+            <!-- Middle Gold Swoosh -->
+            <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="url(#goldMain)" />
+            
+            <!-- White Open Book -->
+            <!-- Left Page -->
+            <path d="M 244 165 
+                     C 175 152 110 180 82 208 
+                     C 76 214 74 222 74 230 
+                     L 74 416 
+                     C 74 425 82 432 91 430 
+                     C 135 418 192 408 244 424 
+                     Z" fill="#FFFFFF"/>
+            
+            <!-- Right Page with Signature Beveled Cut -->
+            <path d="M 268 165 
+                     C 337 152 402 180 430 208 
+                     C 436 214 438 222 438 230 
+                     L 438 460 
+                     C 438 468 430 474 422 470 
+                     L 336 418 
+                     C 310 404 288 412 268 424 
+                     Z" fill="#FFFFFF"/>
+                     
+            <!-- Center Bookmark Ribbon -->
+            <path d="M 250 170 L 262 170 L 262 390 L 256 380 L 250 390 Z" fill="url(#goldMain)"/>
+          </svg>
+        </div>
+        <h4>App Icon Master (512x512)</h4>
+        <p>Utilisé pour l'icône PWA, Apple Touch Icon et visuels de marque.</p>
+      </div>
+
+      <!-- Transparent Vector Mark on Dark -->
+      <div class="showcase-card">
+        <div style="width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; background: #07191F; border-radius: 16px; border: 1px dashed rgba(255,255,255,0.15);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="50 20 410 470" width="130" height="130">
+            <!-- Dynamic Swooshes -->
+            <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+            <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+            <path d="M 244 165 C 175 152 110 180 82 208 C 76 214 74 222 74 230 L 74 416 C 74 425 82 432 91 430 C 135 418 192 408 244 424 Z" fill="#FFFFFF"/>
+            <path d="M 268 165 C 337 152 402 180 430 208 C 436 214 438 222 438 230 L 438 460 C 438 468 430 474 422 470 L 336 418 C 310 404 288 412 268 424 Z" fill="#FFFFFF"/>
+            <path d="M 250 170 L 262 170 L 262 390 L 256 380 L 250 390 Z" fill="#F59E0B"/>
+          </svg>
+        </div>
+        <h4>Symbole Vectoriel Détouré</h4>
+        <p>Sans boîte englobante, parfait pour les fonds sombres ou clairs.</p>
+      </div>
+
+      <!-- Light Background Test -->
+      <div class="showcase-card" style="background: #f8fafc; color: #0f172a; border-color: #e2e8f0;">
+        <div style="width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 16px; border: 1px dashed rgba(0,0,0,0.1);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="50 20 410 470" width="130" height="130">
+            <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+            <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+            <path d="M 244 165 C 175 152 110 180 82 208 C 76 214 74 222 74 230 L 74 416 C 74 425 82 432 91 430 C 135 418 192 408 244 424 Z" fill="#5447C8"/>
+            <path d="M 268 165 C 337 152 402 180 430 208 C 436 214 438 222 438 230 L 438 460 C 438 468 430 474 422 470 L 336 418 C 310 404 288 412 268 424 Z" fill="#5447C8"/>
+            <path d="M 250 170 L 262 170 L 262 390 L 256 380 L 250 390 Z" fill="#F59E0B"/>
+          </svg>
+        </div>
+        <h4 style="color: #0f172a;">Variante Fond Clair</h4>
+        <p style="color: #64748b;">Le livre adopte l'indigo royal (#5447C8) sur fond blanc.</p>
+      </div>
+    </div>
+
+    <div class="section-title">🌐 2. Rendu en Situation : Favicon dans l'Onglet du Navigateur</div>
+    <div class="tab-bar-demo">
+      <div class="browser-tab">
+        <svg viewBox="0 0 512 512" width="18" height="18" style="border-radius: 4px;">
+          <rect width="512" height="512" rx="108" fill="#5044B8"/>
+          <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+          <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+          <path d="M 244 165 C 175 152 110 180 82 208 L 82 416 C 135 405 192 405 244 424 Z" fill="#FFFFFF"/>
+          <path d="M 268 165 C 337 152 402 180 430 208 L 430 460 L 336 418 C 310 404 288 412 268 424 Z" fill="#FFFFFF"/>
+        </svg>
+        <span>Annale229 — Épreuves MBH | EPAC Bénin</span>
+        <span style="margin-left: 8px; font-size: 11px; opacity: 0.6;">✕</span>
+      </div>
+    </div>
+    <div class="tab-content">
+      <span>Le favicon reste immédiatement identifiable, contrasté et lisible même à 16x16 pixels.</span>
+    </div>
+
+    <div class="section-title">🚀 3. Intégration dans le Navbar de notre Application</div>
+    <div class="navbar-preview">
+      <div class="brand-group">
+        <div style="width: 42px; height: 42px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(84, 71, 200, 0.4); transform: translateZ(0);">
+          <svg viewBox="0 0 512 512" width="42" height="42">
+            <rect width="512" height="512" rx="108" fill="#5447C8"/>
+            <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+            <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+            <path d="M 244 165 C 175 152 110 180 82 208 C 76 214 74 222 74 230 L 74 416 C 74 425 82 432 91 430 C 135 418 192 408 244 424 Z" fill="#FFFFFF"/>
+            <path d="M 268 165 C 337 152 402 180 430 208 C 436 214 438 222 438 230 L 438 460 C 438 468 430 474 422 470 L 336 418 C 310 404 288 412 268 424 Z" fill="#FFFFFF"/>
+            <path d="M 250 170 L 262 170 L 262 390 L 256 380 L 250 390 Z" fill="#F59E0B"/>
+          </svg>
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF;">
+              Annale<span style="background: linear-gradient(135deg, #10B981, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">229</span>
+            </span>
+            <span style="font-size: 10px; font-weight: 700; color: #5447C8; background: #EEF2FF; padding: 2px 6px; border-radius: 9999px; border: 1px solid #C7D2FE;">
+              MBH • EPAC
+            </span>
+          </div>
+          <span style="font-size: 10.5px; color: #94A3B8; font-weight: 500;">
+            Génie Biomédical & Hospitalier
+          </span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 13px; color: #cbd5e1; font-weight: 500; padding: 6px 14px; background: rgba(255,255,255,0.06); border-radius: 10px;">Épreuves MBH</span>
+        <span style="font-size: 13px; color: #ffffff; font-weight: 600; padding: 6px 16px; background: linear-gradient(135deg, #5447C8, #4336A4); border-radius: 10px; box-shadow: 0 4px 12px rgba(84, 71, 200, 0.3);">Déposer une annale</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

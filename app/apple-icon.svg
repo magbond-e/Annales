@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="appleBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5447C8"/>
+      <stop offset="100%" stop-color="#4336A4"/>
+    </linearGradient>
+    <linearGradient id="appleGold" x1="0%" y1="0%" x2="100%" y2="60%">
+      <stop offset="0%" stop-color="#FFBE2E"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="appleCoral" x1="0%" y1="0%" x2="100%" y2="60%">
+      <stop offset="0%" stop-color="#FF5C7E"/>
+      <stop offset="100%" stop-color="#F43F5E"/>
+    </linearGradient>
+    <linearGradient id="appleFold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0D7F7"/>
+      <stop offset="100%" stop-color="#A5B4FC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="108" fill="url(#appleBg)"/>
+  <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="url(#appleCoral)"/>
+  <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="url(#appleGold)"/>
+  <path d="M 148 140 L 320 140 L 388 208 L 388 440 C 388 454 376 466 362 466 L 148 466 C 134 466 122 454 122 440 L 122 166 C 122 152 134 140 148 140 Z" fill="#FFFFFF"/>
+  <path d="M 320 140 L 320 188 C 320 199 329 208 340 208 L 388 208 Z" fill="url(#appleFold)"/>
+  <rect x="166" y="246" width="180" height="22" rx="11" fill="#5447C8"/>
+  <rect x="166" y="296" width="180" height="22" rx="11" fill="#5447C8"/>
+  <rect x="166" y="346" width="120" height="22" rx="11" fill="#5447C8"/>
+</svg>

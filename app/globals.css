@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ── Variables CSS : thème clair ── */
+  :root {
+    --brand-primary: #0F4C5C;
+    --brand-hover: #14647A;
+    --brand-accent: #10B981;
+    --bg-main: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-subtle: #F1F5F9;
+    --text-main: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --border-color: #E2E8F0;
+    --shadow-color: rgba(15, 23, 42, 0.07);
+  }
+
+  /* ── Variables CSS : thème sombre ── */
+  .dark {
+    --brand-primary: #38BDF8;
+    --brand-hover: #7DD3FC;
+    --brand-accent: #34D399;
+    --bg-main: #0D1117;
+    --bg-card: #161B22;
+    --bg-subtle: #21262D;
+    --text-main: #F0F6FC;
+    --text-secondary: #8B949E;
+    --text-muted: #6E7681;
+    --border-color: #30363D;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   GLASSMORPHISM — Light & Dark
+══════════════════════════════════════════════════════════ */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.dark .glass-panel {
+  background: rgba(22, 27, 34, 0.85);
+  border-color: rgba(48, 54, 61, 0.9);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.dark .glass-nav {
+  background: rgba(13, 17, 23, 0.90);
+  border-bottom-color: rgba(48, 54, 61, 0.8);
+}
+
+.glass-dropdown {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.dark .glass-dropdown {
+  background: rgba(22, 27, 34, 0.98);
+  border-color: rgba(48, 54, 61, 0.9);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SURFACE TOKENS — responsive au dark mode
+══════════════════════════════════════════════════════════ */
+.bg-surface-bg    { background-color: var(--bg-main); }
+.bg-surface-card  { background-color: var(--bg-card); }
+.bg-surface-subtle { background-color: var(--bg-subtle); }
+.text-ink-primary   { color: var(--text-main); }
+.text-ink-secondary { color: var(--text-secondary); }
+.text-ink-muted     { color: var(--text-muted); }
+.border-surface     { border-color: var(--border-color); }
+
+/* ══════════════════════════════════════════════════════════
+   SKELETON SHIMMER — Light & Dark
+══════════════════════════════════════════════════════════ */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .animate-shimmer {
+  background: linear-gradient(90deg, #21262D 25%, #30363D 50%, #21262D 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATIONS FLOATING & PULSE
+══════════════════════════════════════════════════════════ */
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%       { transform: scale(1.15); opacity: 0.75; }
+}
+
+.animate-pulse-glow { animation: pulseGlow 2.5s infinite ease-in-out; }
+
+@keyframes float        { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(2deg)} }
+@keyframes floatDelayed { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px) rotate(-2deg)} }
+@keyframes floatSlow    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px) rotate(3deg)} }
+
+.animate-float         { animation: float 6s ease-in-out infinite; }
+.animate-float-delayed { animation: floatDelayed 7s ease-in-out 2s infinite; }
+.animate-float-slow    { animation: floatSlow 9s ease-in-out 1s infinite; }
+
+/* ══════════════════════════════════════════════════════════
+   SCROLLBAR — Light & Dark
+══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+.dark ::-webkit-scrollbar-thumb { background: #30363D; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #484F58; }
+
+/* ══════════════════════════════════════════════════════════
+   THEME TOGGLE BUTTON
+══════════════════════════════════════════════════════════ */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  transform: scale(1.05);
+}
+
+.theme-toggle svg {
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Logo Annale229 - Style Feuille Google Docs</title>
+  <style>
+    body {
+      background: #090e17;
+      color: #f0f6fc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #131924;
+      border: 1px solid #252f40;
+      border-radius: 20px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .card.highlight {
+      border-color: #5547C8;
+      box-shadow: 0 0 0 1px #5547C8, 0 16px 40px rgba(85, 71, 200, 0.3);
+    }
+    .badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #5547C8;
+      color: white;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .svg-container {
+      width: 200px;
+      height: 200px;
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.45));
+      transition: transform 0.2s;
+    }
+    .svg-container:hover {
+      transform: scale(1.03);
+    }
+    .card h3 {
+      margin: 20px 0 8px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+    .card p {
+      margin: 0 0 18px 0;
+      color: #8b949e;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: #1a2232;
+      padding: 10px 18px;
+      border-radius: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .preview-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .fav-icon {
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Propositions : Feuille de Document (Google Docs) + Swooshes</h1>
+  <p class="subtitle">Remplacement du "n" par la feuille avec coin corné (dog-ear) caractéristique de Google Docs, associée aux voiles d'énergie.</p>
+
+  <div class="grid">
+    <!-- OPTION 1: Classic Google Docs with 3 Lines (Clean & Professional) -->
+    <div class="card highlight">
+      <span class="badge">Recommandé</span>
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+          <defs>
+            <linearGradient id="bgDoc1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5447C8"/>
+              <stop offset="100%" stop-color="#4336A4"/>
+            </linearGradient>
+            <linearGradient id="goldDoc1" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FFBE2E"/>
+              <stop offset="100%" stop-color="#F59E0B"/>
+            </linearGradient>
+            <linearGradient id="coralDoc1" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FF5C7E"/>
+              <stop offset="100%" stop-color="#F43F5E"/>
+            </linearGradient>
+            <linearGradient id="foldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C7D2FE"/>
+              <stop offset="100%" stop-color="#9FA8DA"/>
+            </linearGradient>
+          </defs>
+          
+          <!-- Squircle container -->
+          <rect width="512" height="512" rx="108" fill="url(#bgDoc1)"/>
+          
+          <!-- Dynamic Swooshes (from reference) -->
+          <!-- Top Coral Swoosh -->
+          <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="url(#coralDoc1)" />
+          
+          <!-- Middle Gold Swoosh -->
+          <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="url(#goldDoc1)" />
+          
+          <!-- Google Docs Style Document Sheet -->
+          <!-- Main Sheet Body with Corner Cut -->
+          <path d="M 148 140 
+                   L 320 140 
+                   L 388 208 
+                   L 388 440 
+                   C 388 454 376 466 362 466 
+                   L 148 466 
+                   C 134 466 122 454 122 440 
+                   L 122 166 
+                   C 122 152 134 140 148 140 
+                   Z" fill="#FFFFFF"/>
+          
+          <!-- Folded Corner Flap (Corner Fold / Dog-Ear) -->
+          <path d="M 320 140 L 320 188 C 320 199 329 208 340 208 L 388 208 Z" fill="url(#foldGrad1)"/>
+          
+          <!-- Horizontal Document Text Lines (Google Docs signature) -->
+          <rect x="166" y="240" width="180" height="18" rx="9" fill="#5447C8"/>
+          <rect x="166" y="286" width="180" height="18" rx="9" fill="#5447C8"/>
+          <rect x="166" y="332" width="180" height="18" rx="9" fill="#5447C8"/>
+          <rect x="166" y="378" width="115" height="18" rx="9" fill="#5447C8"/>
+        </svg>
+      </div>
+      <h3>Option 1 : Google Docs Classique & Lignes</h3>
+      <p>La silhouette iconique du document Google Docs avec son pli biseauté et ses lignes d'épreuve de révision.</p>
+      
+      <div class="preview-row">
+        <div class="preview-item">
+          <span>64px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="48" height="48">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 148 140 L 320 140 L 388 208 L 388 440 C 388 454 376 466 362 466 L 148 466 C 134 466 122 454 122 440 L 122 166 C 122 152 134 140 148 140 Z" fill="#FFFFFF"/>
+              <path d="M 320 140 L 320 188 C 320 199 329 208 340 208 L 388 208 Z" fill="#C7D2FE"/>
+              <rect x="166" y="240" width="180" height="20" rx="10" fill="#5044B8"/>
+              <rect x="166" y="290" width="180" height="20" rx="10" fill="#5044B8"/>
+              <rect x="166" y="340" width="180" height="20" rx="10" fill="#5044B8"/>
+              <rect x="166" y="390" width="115" height="20" rx="10" fill="#5044B8"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-item">
+          <span>32px (Favicon)</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="32" height="32">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 148 140 L 320 140 L 388 208 L 388 440 C 388 454 376 466 362 466 L 148 466 C 134 466 122 454 122 440 L 122 166 C 122 152 134 140 148 140 Z" fill="#FFFFFF"/>
+              <path d="M 320 140 L 320 208 L 388 208 Z" fill="#B3C5FF"/>
+              <rect x="170" y="250" width="170" height="28" rx="14" fill="#5044B8"/>
+              <rect x="170" y="310" width="170" height="28" rx="14" fill="#5044B8"/>
+              <rect x="170" y="370" width="110" height="28" rx="14" fill="#5044B8"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 2: Modern Minimalist Sheet (Pure White + Gold Accent Fold) -->
+    <div class="card">
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+          <defs>
+            <linearGradient id="bgDoc2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5447C8"/>
+              <stop offset="100%" stop-color="#4336A4"/>
+            </linearGradient>
+            <linearGradient id="goldDoc2" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FFBE2E"/>
+              <stop offset="100%" stop-color="#F59E0B"/>
+            </linearGradient>
+            <linearGradient id="coralDoc2" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FF5C7E"/>
+              <stop offset="100%" stop-color="#F43F5E"/>
+            </linearGradient>
+          </defs>
+          
+          <rect width="512" height="512" rx="108" fill="url(#bgDoc2)"/>
+          
+          <!-- Top Coral Swoosh -->
+          <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="url(#coralDoc2)" />
+          
+          <!-- Middle Gold Swoosh -->
+          <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="url(#goldDoc2)" />
+          
+          <!-- Sheet Body -->
+          <path d="M 148 140 
+                   L 320 140 
+                   L 388 208 
+                   L 388 440 
+                   C 388 454 376 466 362 466 
+                   L 148 466 
+                   C 134 466 122 454 122 440 
+                   L 122 166 
+                   C 122 152 134 140 148 140 
+                   Z" fill="#FFFFFF"/>
+          
+          <!-- Folded Corner in Gold Accent -->
+          <path d="M 320 140 L 320 188 C 320 199 329 208 340 208 L 388 208 Z" fill="url(#goldDoc2)"/>
+          
+          <!-- Minimalist single exam stamp / MBH emblem or subtle lines -->
+          <rect x="166" y="250" width="120" height="20" rx="10" fill="url(#goldDoc2)"/>
+          <rect x="166" y="296" width="180" height="18" rx="9" fill="#5447C8" opacity="0.8"/>
+          <rect x="166" y="342" width="180" height="18" rx="9" fill="#5447C8" opacity="0.8"/>
+          <rect x="166" y="388" width="140" height="18" rx="9" fill="#5447C8" opacity="0.8"/>
+        </svg>
+      </div>
+      <h3>Option 2 : Feuille & Titre Doré</h3>
+      <p>Le coin replié et la ligne d'en-tête sont teintés d'or ambré pour rappeler le swoosh doré.</p>
+      
+      <div class="preview-row">
+        <div class="preview-item">
+          <span>64px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="48" height="48">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 148 140 L 320 140 L 388 208 L 388 440 C 388 454 376 466 362 466 L 148 466 C 134 466 122 454 122 440 L 122 166 C 122 152 134 140 148 140 Z" fill="#FFFFFF"/>
+              <path d="M 320 140 L 320 208 L 388 208 Z" fill="#F59E0B"/>
+              <rect x="166" y="250" width="120" height="24" rx="12" fill="#F59E0B"/>
+              <rect x="166" y="300" width="180" height="20" rx="10" fill="#5044B8"/>
+              <rect x="166" y="350" width="180" height="20" rx="10" fill="#5044B8"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-item">
+          <span>32px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="32" height="32">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 148 140 L 320 140 L 388 208 L 388 440 C 388 454 376 466 362 466 L 148 466 C 134 466 122 454 122 440 L 122 166 C 122 152 134 140 148 140 Z" fill="#FFFFFF"/>
+              <path d="M 320 140 L 320 208 L 388 208 Z" fill="#F59E0B"/>
+              <rect x="170" y="250" width="120" height="30" rx="15" fill="#F59E0B"/>
+              <rect x="170" y="315" width="170" height="28" rx="14" fill="#5044B8"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 3: Double Sheet (Sujet + Corrigé) -->
+    <div class="card">
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+          <defs>
+            <linearGradient id="bgDoc3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5447C8"/>
+              <stop offset="100%" stop-color="#4336A4"/>
+            </linearGradient>
+            <linearGradient id="goldDoc3" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FFBE2E"/>
+              <stop offset="100%" stop-color="#F59E0B"/>
+            </linearGradient>
+            <linearGradient id="coralDoc3" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FF5C7E"/>
+              <stop offset="100%" stop-color="#F43F5E"/>
+            </linearGradient>
+          </defs>
+          
+          <rect width="512" height="512" rx="108" fill="url(#bgDoc3)"/>
+          
+          <!-- Swooshes -->
+          <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="url(#coralDoc3)" />
+          <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="url(#goldDoc3)" />
+          
+          <!-- Back Sheet (2ème feuille / corrigé) -->
+          <path d="M 112 180 L 260 180 L 310 230 L 310 420 L 112 420 Z" fill="#FFFFFF" opacity="0.4"/>
+          
+          <!-- Front Sheet (Sujet principal) -->
+          <path d="M 160 150 
+                   L 330 150 
+                   L 400 220 
+                   L 400 460 
+                   C 400 468 392 474 384 472 
+                   L 290 435 
+                   C 260 422 240 420 160 420 
+                   C 146 420 134 408 134 394 
+                   L 134 176 
+                   C 134 162 146 150 160 150 
+                   Z" fill="#FFFFFF"/>
+          
+          <!-- Folded Corner -->
+          <path d="M 330 150 L 330 200 C 330 211 339 220 350 220 L 400 220 Z" fill="#C7D2FE"/>
+          
+          <!-- Lines -->
+          <rect x="176" y="250" width="180" height="18" rx="9" fill="#5447C8"/>
+          <rect x="176" y="296" width="180" height="18" rx="9" fill="#5447C8"/>
+          <rect x="176" y="342" width="120" height="18" rx="9" fill="#5447C8"/>
+        </svg>
+      </div>
+      <h3>Option 3 : Feuilles Superposées (Sujet & Corrigé)</h3>
+      <p>Double page en décalé pour illustrer le recueil d'épreuves et leurs solutions.</p>
+      
+      <div class="preview-row">
+        <div class="preview-item">
+          <span>64px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="48" height="48">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 112 180 L 260 180 L 310 230 L 310 420 L 112 420 Z" fill="#FFFFFF" opacity="0.4"/>
+              <path d="M 160 150 L 330 150 L 400 220 L 400 460 L 290 435 L 140 435 L 140 170 Z" fill="#FFFFFF"/>
+              <path d="M 330 150 L 330 220 L 400 220 Z" fill="#C7D2FE"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-item">
+          <span>32px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="32" height="32">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 160 150 L 330 150 L 400 220 L 400 460 L 290 435 L 140 435 L 140 170 Z" fill="#FFFFFF"/>
+              <path d="M 330 150 L 330 220 L 400 220 Z" fill="#C7D2FE"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 4: Modern Cut Document Sheet with Signature Bevel (Matching reference bottom cut) -->
+    <div class="card">
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+          <defs>
+            <linearGradient id="bgDoc4" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5447C8"/>
+              <stop offset="100%" stop-color="#4336A4"/>
+            </linearGradient>
+            <linearGradient id="goldDoc4" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FFBE2E"/>
+              <stop offset="100%" stop-color="#F59E0B"/>
+            </linearGradient>
+            <linearGradient id="coralDoc4" x1="0%" y1="0%" x2="100%" y2="60%">
+              <stop offset="0%" stop-color="#FF5C7E"/>
+              <stop offset="100%" stop-color="#F43F5E"/>
+            </linearGradient>
+          </defs>
+          
+          <rect width="512" height="512" rx="108" fill="url(#bgDoc4)"/>
+          
+          <!-- Swooshes -->
+          <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="url(#coralDoc4)" />
+          <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="url(#goldDoc4)" />
+          
+          <!-- Document with dog-ear at top AND signature bevel at bottom-right (from 'n' reference) -->
+          <path d="M 144 140 
+                   L 322 140 
+                   L 392 210 
+                   L 392 485 
+                   C 392 492 384 496 378 492 
+                   L 290 435 
+                   C 260 422 230 422 144 422 
+                   C 130 422 118 410 118 396 
+                   L 118 166 
+                   C 118 152 130 140 144 140 
+                   Z" fill="#FFFFFF"/>
+          
+          <!-- Folded corner in gradient -->
+          <path d="M 322 140 L 322 192 C 322 202 330 210 340 210 L 392 210 Z" fill="#C7D2FE"/>
+          
+          <!-- 3 Dynamic Lines (First line in Emerald/Teal brand tint or Indigo) -->
+          <rect x="156" y="246" width="190" height="20" rx="10" fill="#10B981"/>
+          <rect x="156" y="294" width="190" height="20" rx="10" fill="#5447C8"/>
+          <rect x="156" y="342" width="130" height="20" rx="10" fill="#5447C8"/>
+        </svg>
+      </div>
+      <h3>Option 4 : Feuille avec Coupe Biseautée & Trait Émeraude</h3>
+      <p>Reprend la coupe biseautée au bas droit de votre image de référence, avec le premier trait vert émeraude (couleur de votre filière).</p>
+      
+      <div class="preview-row">
+        <div class="preview-item">
+          <span>64px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="48" height="48">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 144 140 L 322 140 L 392 210 L 392 485 L 290 435 L 120 435 L 120 166 Z" fill="#FFFFFF"/>
+              <path d="M 322 140 L 322 210 L 392 210 Z" fill="#C7D2FE"/>
+              <rect x="156" y="246" width="190" height="22" rx="11" fill="#10B981"/>
+              <rect x="156" y="296" width="190" height="22" rx="11" fill="#5044B8"/>
+              <rect x="156" y="346" width="130" height="22" rx="11" fill="#5044B8"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-item">
+          <span>32px</span>
+          <div class="fav-icon">
+            <svg viewBox="0 0 512 512" width="32" height="32">
+              <rect width="512" height="512" rx="108" fill="#5044B8"/>
+              <path d="M 266 35 C 315 42 365 88 393 162 C 352 110 305 76 266 82 Z" fill="#F43F5E" />
+              <path d="M 158 70 C 240 70 345 125 393 205 C 330 148 235 118 158 126 Z" fill="#F59E0B" />
+              <path d="M 144 140 L 322 140 L 392 210 L 392 485 L 290 435 L 120 435 L 120 166 Z" fill="#FFFFFF"/>
+              <path d="M 322 140 L 322 210 L 392 210 Z" fill="#C7D2FE"/>
+              <rect x="156" y="250" width="180" height="28" rx="14" fill="#10B981"/>
+              <rect x="156" y="310" width="180" height="28" rx="14" fill="#5044B8"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
