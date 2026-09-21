@@ -19,7 +19,23 @@ export async function GET(
       return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
     }
 
-    return NextResponse.json({ epreuve });
+    const session = await getServerSession(authOptions);
+    const currentUserEmail = session?.user?.email?.trim().toLowerCase();
+    const { isUserAdminAsync } = await import('@/lib/utils/admin');
+    const userIsAdmin = currentUserEmail ? await isUserAdminAsync(currentUserEmail) : false;
+    const isOwner = Boolean(currentUserEmail && epreuve.uploader_email.toLowerCase() === currentUserEmail);
+
+    // Une épreuve non approuvée (en attente ou rejetée) n'est visible que par l'admin ou son auteur
+    if (epreuve.statut !== 'approuve' && !userIsAdmin && !isOwner) {
+      return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
+    }
+
+    // uploader_email n'est exposé qu'à l'administrateur ou à l'auteur lui-même
+    const sanitizedEpreuve = (userIsAdmin || isOwner)
+      ? epreuve
+      : { ...epreuve, uploader_email: '' };
+
+    return NextResponse.json({ epreuve: sanitizedEpreuve });
   } catch (error) {
     console.error('Erreur API GET /api/epreuves/[id]:', error);
     return NextResponse.json(

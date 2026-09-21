@@ -61,8 +61,8 @@ async function fetchBuffer(params: {
 async function mergePdfs(sujetBuffer: Buffer, corrigeBuffer: Buffer): Promise<Buffer | null> {
   try {
     const { PDFDocument } = await import('pdf-lib');
-    const sujetDoc   = await PDFDocument.load(sujetBuffer);
-    const corrigeDoc = await PDFDocument.load(corrigeBuffer);
+    const sujetDoc   = await PDFDocument.load(sujetBuffer, { ignoreEncryption: true });
+    const corrigeDoc = await PDFDocument.load(corrigeBuffer, { ignoreEncryption: true });
     const merged     = await PDFDocument.create();
 
     const sp = await merged.copyPages(sujetDoc,   sujetDoc.getPageIndices());

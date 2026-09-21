@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { DataService } from '@/lib/storage/data-service';
 import { isUserAdminAsync } from '@/lib/utils/admin';
-import { MAX_FILE_SIZE_BYTES, getCanonicalFileType } from '@/lib/utils/validation';
+import { MAX_FILE_SIZE_BYTES, getCanonicalFileType, validateUploadedFile } from '@/lib/utils/validation';
 
 /**
  * POST /api/epreuves/[id]/corrige
@@ -37,7 +37,18 @@ export async function POST(
     return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
   }
 
-  // Si un corrigé existe déjà, seul un admin peut le remplacer
+  const currentUserEmail = session.user.email.trim().toLowerCase();
+  const isOwner = epreuve.uploader_email.trim().toLowerCase() === currentUserEmail;
+
+  // Contrôle de propriété : seuls l'administrateur ou l'auteur de l'épreuve peuvent ajouter un corrigé
+  if (!userIsAdmin && !isOwner) {
+    return NextResponse.json(
+      { error: 'Non autorisé : vous devez être l\'auteur de cette épreuve ou administrateur pour y joindre un corrigé.' },
+      { status: 403 }
+    );
+  }
+
+  // Si un corrigé existe déjà, seul un administrateur peut le remplacer
   if (epreuve.has_corrige && !userIsAdmin) {
     return NextResponse.json(
       { error: 'Un corrigé existe déjà. Seul un administrateur peut le remplacer.' },
@@ -52,20 +63,15 @@ export async function POST(
     if (!file || file.size === 0) {
       return NextResponse.json({ error: 'Veuillez sélectionner un fichier.' }, { status: 400 });
     }
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      return NextResponse.json({ error: 'Le fichier ne doit pas dépasser 15 Mo.' }, { status: 400 });
-    }
-
-    const canonicalType = getCanonicalFileType(file.name, file.type);
-    if (!canonicalType) {
-      return NextResponse.json(
-        { error: 'Format non supporté. Utilisez PDF, JPG, PNG ou HEIC.' },
-        { status: 400 }
-      );
-    }
 
     const bytes = await file.arrayBuffer();
     const fileBuffer = Buffer.from(bytes);
+
+    // Validation stricte de la signature binaire réelle (Magic Bytes)
+    const validationResult = validateUploadedFile(file.name, fileBuffer, file.type);
+    if (!validationResult.valid) {
+      return NextResponse.json({ error: validationResult.error }, { status: 400 });
+    }
 
     const updatedEpreuve = await DataService.addCorrige({
       epreuveId,
@@ -79,7 +85,7 @@ export async function POST(
   } catch (error) {
     console.error('Erreur POST /api/epreuves/[id]/corrige:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Erreur lors du téléversement du corrigé.' },
+      { error: 'Une erreur est survenue lors du téléversement du corrigé.' },
       { status: 500 }
     );
   }

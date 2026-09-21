@@ -40,10 +40,10 @@ export async function POST(req: NextRequest) {
 
     const matiere = await AdminService.addMatiere(nom, session.user.email);
     return NextResponse.json({ success: true, matiere });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Erreur API POST /api/admin/matieres:', error);
     return NextResponse.json(
-      { error: error.message || 'Erreur lors de la création de la matière.' },
+      { error: 'Erreur lors de la création de la matière.' },
       { status: 500 }
     );
   }

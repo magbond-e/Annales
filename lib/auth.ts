@@ -19,8 +19,9 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   );
 }
 
-// Provider de secours pour développement local uniquement
-if (process.env.NODE_ENV !== 'production') {
+// Provider de secours pour développement local uniquement (strictement restreint à NODE_ENV === 'development')
+// Interdit en production et sur tout environnement autre que le développement local strict
+if (process.env.NODE_ENV === 'development') {
   providers.push(
     CredentialsProvider({
       id: 'credentials',
@@ -31,14 +32,46 @@ if (process.env.NODE_ENV !== 'production') {
       },
       async authorize(credentials) {
         if (!credentials?.email) return null;
+        const normalizedEmail = credentials.email.toLowerCase().trim();
+
+        // Garde-fou absolu : interdiction formelle d'usurper un compte administrateur en mode démo
+        const { getStaticAdminEmails } = await import('@/lib/utils/admin');
+        if (getStaticAdminEmails().has(normalizedEmail)) {
+          console.warn(`[SÉCURITÉ] Tentative de connexion démo bloquée pour l'email administrateur: ${normalizedEmail}`);
+          return null;
+        }
+
         return {
           id: 'user_dev_local',
-          email: credentials.email.toLowerCase().trim(),
-          name: credentials.name || 'Utilisateur Test',
+          email: normalizedEmail,
+          name: credentials.name || 'Utilisateur Test (Démo)',
           image: null,
         };
       },
     })
+  );
+}
+
+// Validation stricte du secret NextAuth
+const INSECURE_DEFAULT_SECRETS = [
+  'annale229_secret_key_development_only_123456789',
+  'votre-secret-robuste-genere-via-openssl',
+  'secret',
+  'changeme',
+];
+
+const nextAuthSecret = process.env.NEXTAUTH_SECRET;
+const isProd = process.env.NODE_ENV === 'production';
+
+if (isProd) {
+  if (!nextAuthSecret || INSECURE_DEFAULT_SECRETS.includes(nextAuthSecret) || nextAuthSecret.length < 32) {
+    throw new Error(
+      '[FATAL SÉCURITÉ] NEXTAUTH_SECRET non sécurisé ou absent en production. Générez une clé aléatoire forte avec `openssl rand -base64 32`.'
+    );
+  }
+} else if (!nextAuthSecret || INSECURE_DEFAULT_SECRETS.includes(nextAuthSecret)) {
+  console.warn(
+    '[AVERTISSEMENT SÉCURITÉ] NEXTAUTH_SECRET utilise une clé faible de développement. Remplacez-la avant toute mise en production.'
   );
 }
 
@@ -52,20 +85,43 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 jours
   },
+  useSecureCookies: isProd,
+  cookies: {
+    sessionToken: {
+      name: isProd ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: isProd,
+      },
+    },
+  },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.email = user.email;
         token.name = user.name;
         token.picture = user.image;
       }
+      if (account) {
+        token.provider = account.provider;
+      }
+
       if (token.email) {
         try {
-          const { isUserAdminAsync, isSuperAdmin } = await import('@/lib/utils/admin');
-          const adminCheck = await isUserAdminAsync(token.email as string);
-          token.isAdmin = adminCheck;
-          token.role = adminCheck ? 'admin' : 'etudiant';
-          token.isSuperAdmin = isSuperAdmin(token.email as string);
+          // Règle de sécurité stricte : un compte issu du provider Credentials ne peut JAMAIS être administrateur
+          if (token.provider === 'credentials') {
+            token.isAdmin = false;
+            token.role = 'etudiant';
+            token.isSuperAdmin = false;
+          } else {
+            const { isUserAdminAsync, isSuperAdmin } = await import('@/lib/utils/admin');
+            const adminCheck = await isUserAdminAsync(token.email as string);
+            token.isAdmin = adminCheck;
+            token.role = adminCheck ? 'admin' : 'etudiant';
+            token.isSuperAdmin = isSuperAdmin(token.email as string);
+          }
         } catch (e) {
           console.error('Erreur vérification admin jwt callback:', e);
         }
@@ -100,5 +156,5 @@ export const authOptions: NextAuthOptions = {
       }
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: nextAuthSecret,
 };

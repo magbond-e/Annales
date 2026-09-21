@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { isUserAdminAsync } from '@/lib/utils/admin';
 import { DataService } from '@/lib/storage/data-service';
 import { fetchCloudinaryBuffer, isCloudinaryConfigured } from '@/lib/storage/cloudinary-client';
 import { getNeonStorageBuffer, isNeonStorageConfigured } from '@/lib/storage/s3-client';
@@ -70,6 +73,16 @@ export async function GET(
       return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
     }
 
+    const session = await getServerSession(authOptions);
+    const currentUserEmail = session?.user?.email?.trim().toLowerCase();
+    const userIsAdmin = currentUserEmail ? await isUserAdminAsync(currentUserEmail) : false;
+    const isOwner = Boolean(currentUserEmail && epreuve.uploader_email?.toLowerCase() === currentUserEmail);
+
+    // Une épreuve non approuvée (en attente ou rejetée) n'est téléchargeable que par l'admin ou son auteur
+    if (epreuve.statut !== 'approuve' && !userIsAdmin && !isOwner) {
+      return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
+    }
+
     // Incrémentation asynchrone non-bloquante du compteur
     DataService.incrementDownloadCount(id).catch((err) => {
       console.error('Erreur incrémentation téléchargements:', err);
@@ -105,8 +118,8 @@ export async function GET(
           try {
             const { PDFDocument } = await import('pdf-lib');
 
-            const sujetDoc = await PDFDocument.load(sujetBuffer);
-            const corrigeDoc = await PDFDocument.load(corrigeBuffer);
+            const sujetDoc = await PDFDocument.load(sujetBuffer, { ignoreEncryption: true });
+            const corrigeDoc = await PDFDocument.load(corrigeBuffer, { ignoreEncryption: true });
             const mergedDoc = await PDFDocument.create();
 
             // Copier toutes les pages du sujet

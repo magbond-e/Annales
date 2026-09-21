@@ -27,10 +27,10 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true, message: 'Matière supprimée avec succès.' });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Erreur API DELETE /api/admin/matieres/[id]:', error);
     return NextResponse.json(
-      { error: error.message || 'Erreur serveur lors de la suppression de la matière.' },
+      { error: 'Erreur serveur lors de la suppression de la matière.' },
       { status: 500 }
     );
   }

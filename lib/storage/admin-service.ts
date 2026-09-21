@@ -195,6 +195,7 @@ export class AdminService {
     await ensureAdminTablesExist();
 
     try {
+      const safeLimit = Math.min(Math.max(1, Number(limit) || 50), 100);
       let rows;
       if (userEmail?.trim()) {
         rows = await sql`
@@ -202,14 +203,14 @@ export class AdminService {
           FROM connexions_log
           WHERE LOWER(user_email) = ${userEmail.trim().toLowerCase()}
           ORDER BY created_at DESC
-          LIMIT ${limit};
+          LIMIT ${safeLimit};
         `;
       } else {
         rows = await sql`
           SELECT id, user_email, user_nom, provider, ip_address, user_agent, created_at
           FROM connexions_log
           ORDER BY created_at DESC
-          LIMIT ${limit};
+          LIMIT ${safeLimit};
         `;
       }
 

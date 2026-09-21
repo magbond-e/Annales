@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { DataService } from '@/lib/storage/data-service';
+import { isValidNiveau, VALID_NIVEAUX_PREDEFINIS } from '@/lib/utils/validation';
 import { Profil } from '@/types';
 
 export async function GET() {
@@ -29,8 +30,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { niveau } = body;
 
-    if (!niveau || typeof niveau !== 'string' || !niveau.trim()) {
-      return NextResponse.json({ error: 'Le niveau est obligatoire.' }, { status: 400 });
+    if (!isValidNiveau(niveau)) {
+      return NextResponse.json({ 
+        error: `Niveau invalide. Valeurs acceptées : ${VALID_NIVEAUX_PREDEFINIS.join(', ')}.` 
+      }, { status: 400 });
     }
 
     const profil: Profil = {

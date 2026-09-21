@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { isUserAdminAsync } from '@/lib/utils/admin';
 import { DataService } from '@/lib/storage/data-service';
 import { fetchCloudinaryBuffer, isCloudinaryConfigured } from '@/lib/storage/cloudinary-client';
 
@@ -17,6 +20,16 @@ export async function GET(
     const epreuve = await DataService.getEpreuveById(id);
 
     if (!epreuve) {
+      return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
+    }
+
+    const session = await getServerSession(authOptions);
+    const currentUserEmail = session?.user?.email?.trim().toLowerCase();
+    const userIsAdmin = currentUserEmail ? await isUserAdminAsync(currentUserEmail) : false;
+    const isOwner = Boolean(currentUserEmail && epreuve.uploader_email?.toLowerCase() === currentUserEmail);
+
+    // Une épreuve non approuvée (en attente ou rejetée) n'est accessible que par l'admin ou son auteur
+    if (epreuve.statut !== 'approuve' && !userIsAdmin && !isOwner) {
       return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
     }
 

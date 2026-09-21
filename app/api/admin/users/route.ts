@@ -68,10 +68,10 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Action non reconnue.' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Erreur API POST /api/admin/users:', error);
     return NextResponse.json(
-      { error: error.message || 'Erreur lors de la gestion des utilisateurs.' },
+      { error: 'Erreur lors de la gestion des utilisateurs.' },
       { status: 500 }
     );
   }

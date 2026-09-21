@@ -1,6 +1,6 @@
-# Directives Techniques Complètes — Annale229-MBH
+# Directives Techniques — Annale229-MBH
 
-Ce dossier rassemble l'ensemble des spécifications, de l'architecture, du modèle de données et des guides de développement pour la plateforme **Annale229-MBH** (Annales et ressources d'examen pour la filière **Maintenance Biomédicale et Hospitalière — MBH**, École Polytechnique d'Abomey-Calavi / EPAC, Université d'Abomey-Calavi, Bénin).
+Ce dossier rassemble l'ensemble des spécifications, de l'architecture, du modèle de données et des guides de développement pour la plateforme **Annale229-MBH** (Annales et ressources d'examen pour la filière MBH — Maintenance Biomédicale et Hospitalière, EPAC / Bénin).
 
 ---
 
@@ -8,97 +8,96 @@ Ce dossier rassemble l'ensemble des spécifications, de l'architecture, du modè
 
 | Document | Rôle & Contenu |
 |---|---|
-| [**PRD-Annale229-MBH-V1.md**](./PRD-Annale229-MBH-V1.md) | **Cahier des charges produit (PRD)** : Vision produit, cursus MBH EPAC (1ère à 3ème année), parcours d'onboarding, personas, fonctionnalités réelles et critères de succès. |
-| [**architecture.md**](./architecture.md) | **Architecture technique globale** : Next.js 14 App Router, Neon PostgreSQL (`proud-lake-48133023`), Cloudinary v2 & Neon S3 (`annales229`), NextAuth (Google OAuth), DataService résilient, assemblage PDF (`pdf-lib`). |
-| [**data-model.md**](./data-model.md) | **Modèle de données & Schéma SQL** : Tables Neon actives (`matieres`, `epreuves`, `profils`, `utilisateurs`, `connexions_log`), support des corrigés/barèmes, index GIN plein texte et pagination stricte. |
-| [**build-plan.md**](./build-plan.md) | **Plan d'implémentation & Roadmap** : État d'avancement des fonctionnalités live, onboarding, pagination par 10, visionneuse native, dark mode et perspectives futures. |
-| [**design-system.md**](./design-system.md) | **Charte graphique & UI Tokens** : Palette Deep Teal (`#0F4C5C`) & Emerald (`#10B981`), Dark Mode (`#0D1117`, `#161B22`, `#21262D`, `#30363D`), glassmorphism et micro-interactions. |
-| [**user-flows.md**](./user-flows.md) | **Parcours utilisateurs détaillés** : Découverte landing page, connexion Google obligatoire, onboarding niveau, pagination par 10, multi-pages avec fusion PDF, partage mobile natif, et console admin. |
-| [**landing-page.md**](./landing-page.md) | **Spécifications de la page d'accueil** : Structure Hero, navigation unifiée, aperçu interactif du catalogue, CTAs Google exclusifs, bascule Dark Mode et FAQ. |
-| [**gemini.md**](./gemini.md) | **Règles & Directives pour agents IA** : Emplacements stricts des fichiers, intégrité Neon live, gestion des 3 niveaux MBH, règles Dark Mode et résilience. |
+| [**PRD-Annale229-MBH-V1.md**](./PRD-Annale229-MBH-V1.md) | **Cahier des charges produit (PRD)** : Problématique, vision, persona étudiant/délégué/admin, fonctionnalités clés et critères de succès. |
+| [**architecture.md**](./architecture.md) | **Architecture technique globale** : Next.js 14 App Router, Neon PostgreSQL, Cloudinary, NextAuth.js, DataService avec fallback résilient, et panel d'administration. |
+| [**data-model.md**](./data-model.md) | **Modèle de données & Schéma SQL** : Tables Neon PostgreSQL (`matieres`, `epreuves`, `profils`, `utilisateurs`, `connexions_log`), types TypeScript et store de secours. |
+| [**build-plan.md**](./build-plan.md) | **Plan d'implémentation & Roadmap** : État d'avancement des phases V1 (fondations, authentification, dépôt, consultation, modération) et backlog V1.1 / V2. |
+| [**design-system.md**](./design-system.md) | **Charte graphique & UI Tokens** : Palette Deep Teal (`#0F4C5C`) & Emerald (`#10B981`), typographies, micro-animations, glassmorphism, et composants réutilisables. |
+| [**user-flows.md**](./user-flows.md) | **Parcours utilisateurs détaillés** : De la découverte à la consultation, au dépôt d'épreuve, au mode démo, jusqu'à la modération et gestion admin. |
+| [**landing-page.md**](./landing-page.md) | **Spécifications de la page d'accueil** : Structure du Hero, navigation vitrée, modal de connexion démo, aperçu interactif des annales et FAQ. |
+| [**legal-pages.md**](./legal-pages.md) | **Pages légales** : modèles de départ pour Mentions légales, CGU, Politique de confidentialité et Politique de cookies — à faire valider par un juriste. |
+| [**security-guidelines.md**](./security-guidelines.md) | **Directives de sécurité contraignantes** : modèle de menace, gestion des secrets, contrôle d'accès, validation des uploads, dépendances, en-têtes HTTP et checklist de mise en production. À charger en permanence dans l'IDE. |
+| [**security-audit-prompt.md**](./security-audit-prompt.md) | **Prompt d'audit de sécurité complet** : 10 axes d'audit, format de rapport attendu, prompt de correction et tests manuels de vérification. |
+| [**gemini.md**](./gemini.md) | **Règles & Directives pour agents IA** : Bonnes pratiques de code, règles strictes d'architecture, sécurité, gestion des erreurs et conventions TypeScript/React. |
 
 ---
 
-## ⚡ Stack Technologique Réelle & Infrastructure Active
+## ⚡ Stack Technologique Réelle
 
-- **Framework Web** : Next.js 14 (App Router, Server Components + Route Handlers).
-- **Langage** : TypeScript en mode strict.
-- **Base de données Live** : **Neon Serverless PostgreSQL** (Projet `proud-lake-48133023`, branche `production`, région AWS `us-east-2`, driver `@neondatabase/serverless`).
-- **Stockage Fichiers (PDF & Images)** :
-  - **Cloudinary v2** (Cloud Name `rg6py08a` — uploads signés et CDN sécurisé).
-  - **Neon Object Storage** (Bucket S3 `annales229` configuré dans `neon.ts`, endpoint `https://br-winter-glade-ay3z1pgq.storage.c-5.us-east-2.aws.neon.tech`).
-- **Assemblage & Fusion PDF** : `pdf-lib` (assemblage automatique de photos multi-pages et fusion Sujet + Corrigé).
-- **Authentification & Accès** : **NextAuth.js v4** (Google OAuth 2.0 exclusif) + **Onboarding automatique** (`/onboarding`) pour mémoriser le niveau académique dès la première connexion.
-- **Couche d'Abstraction Résiliente** : `DataService` (`lib/storage/data-service.ts`) & `AdminService` (`lib/storage/admin-service.ts`) avec basculement automatique sur `lib/storage/mock-store.ts` en cas d'indisponibilité réseau.
-- **Thème & Design** : Thème Clair & Sombre (Dark Mode) avec stockage dans `localStorage` (`annale229-theme`), Tailwind CSS avec variables CSS réactives.
-- **Partage Social** : Web Share API native (`navigator.share`) avec fallback presse-papier sur desktop.
-- **Port de Développement Local** : **3005** (`npm run dev`).
+- **Framework** : Next.js 14 (App Router, Server Components + API Routes).
+- **Langage** : TypeScript (mode strict).
+- **Base de données** : **Neon Serverless PostgreSQL** (driver `@neondatabase/serverless` avec pooling SSL et recherche plein texte en français).
+- **Stockage Fichiers (PDF & Images)** : **Cloudinary v2** (Cloudinary Node.js SDK avec uploads signés et URLs sécurisées).
+- **Authentification** : **NextAuth.js v4** (Google OAuth 2.0 + Provider Credentials Démo pour revues et tests locaux).
+- **Couche d'abstraction résiliente** : `DataService` (`lib/data-service.ts`) assurant un basculement automatique et transparent vers un mock store en mémoire (`mockStore.ts` & `mockStorage.ts`) lorsque la base ou Cloudinary n'est pas configuré.
+- **Styling** : Tailwind CSS avec variables CSS HSL, typographie Google Fonts (*Inter* + *Plus Jakarta Sans*), effets de glassmorphism et composants animés.
+- **Icônes** : Lucide React.
 
 ---
 
-## 🎯 Données Réelles Insérées & Cursus MBH
+## 🚀 Démarrage Rapide
 
-La base de données Neon en production contient d'ores et déjà :
-- **8 Matières Fondamentales MBH** :
-  1. `m_phys01` : *Physique Médicale*
-  2. `m_elec02` : *Électronique Médicale*
-  3. `m_imag03` : *Imagerie Médicale & Radiologie*
-  4. `m_maint04` : *Maintenance des Équipements Hospitaliers*
-  5. `m_anat05` : *Anatomie & Physiologie Humaine*
-  6. `m_secu06` : *Sécurité & Normes Hospitalières*
-  7. `m_inst07` : *Instrumentation Biomédicale*
-  8. `m_tele08` : *Télémédecine & Systèmes d'Information*
-- **Niveaux Académiques du Cursus EPAC** :
-  - **Strictement : `1ère année`, `2ème année`, `3ème année`** (Cycle Licence MBH).
-- **Types d'Épreuves Valides** :
-  - `devoir` (Devoirs surveillés continus)
-  - `rattrapage` (Sessions de rattrapage)
-- **Compte Administrateur / Délégué Référent** :
-  - `ulrrichmagbonde@gmail.com` (Ulrich MAGBONDE, rôle `admin`).
-
----
-
-## 🚀 Démarrage & Configuration Locale
-
-### 1. Cloner et installer les dépendances
+### 1. Cloner le projet et installer les dépendances
 ```bash
 npm install
 ```
 
-### 2. Variables d'Environnement (`.env.local`)
-Le fichier `.env.local` est configuré avec les services actifs :
+### 2. Configuration des Variables d'Environnement
+Créez un fichier `.env.local` à la racine à partir de `.env.example` :
 
 ```ini
-# Port d'écoute et Authentification NextAuth
-NEXTAUTH_URL=http://localhost:3005
-NEXTAUTH_SECRET=<votre-secret-32-chars-min>
-ADMIN_EMAIL=<email-administrateur-principal>
-SUPER_ADMIN_EMAIL=<email-super-admin-fondateur>
+# Base de Données (Neon Serverless PostgreSQL)
+DATABASE_URL="postgres://user:password@ep-cool-project-123456.us-east-2.aws.neon.tech/neondb?sslmode=require"
 
-# Google OAuth (Obligatoire pour l'accès complet)
-GOOGLE_CLIENT_ID=<votre-client-id>.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=<votre-client-secret>
+# Stockage Fichiers (Cloudinary)
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
 
-# Neon Serverless PostgreSQL
-DATABASE_URL="postgresql://neondb_owner:<mdp>@<host>-pooler.<region>.aws.neon.tech/neondb?sslmode=require"
-DATABASE_URL_UNPOOLED="postgresql://neondb_owner:<mdp>@<host>.<region>.aws.neon.tech/neondb?sslmode=require"
-NEON_BRANCH=production
-NEON_DATA_API_URL=https://<host>.apirest.<region>.aws.neon.tech/neondb/rest/v1
+# Authentification NextAuth
+NEXTAUTH_URL="http://localhost:3005"
+NEXTAUTH_SECRET="votre-secret-robuste-genere-via-openssl"
 
-# Cloudinary CDN
-CLOUDINARY_CLOUD_NAME=<votre-cloud-name>
-CLOUDINARY_API_KEY=<votre-api-key>
-CLOUDINARY_API_SECRET=<votre-api-secret>
+# Google OAuth
+GOOGLE_CLIENT_ID="votre-client-id.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="votre-client-secret"
 
-# Neon Object Storage (S3-compatible)
-AWS_ACCESS_KEY_ID=nak_live_<votre-clé>
-AWS_SECRET_ACCESS_KEY=nsk_live_<votre-clé>
-AWS_ENDPOINT_URL_S3=https://<bucket-endpoint>.storage.<region>.aws.neon.tech
-AWS_REGION=us-east-2
+# Rôles Administrateurs (emails séparés par des virgules)
+ADMIN_EMAIL="ulrrichmagbonde@gmail.com,elon.epac@gmail.com"
+
+# URL publique de l'application
+NEXT_PUBLIC_APP_URL="http://localhost:3005"
 ```
 
-### 3. Commandes Utiles
-- **Lancer l'application** : `npm run dev` (accessible sur `http://localhost:3005`).
-- **Auditer la configuration** : `npm run check-config`.
-- **Réinitialiser le schéma Neon** : `npm run setup-db`.
-- **Espace Administrateur & Modération** : `http://localhost:3005/admin`.
+> **Note de Résilience :** Même sans identifiants Neon ou Cloudinary fournis, l'application fonctionne immédiatement en mode démo / mock store en mémoire pour le développement UI !
+
+### 3. Initialiser la Base de Données (Optionnel si Neon connecté)
+Pour appliquer le schéma SQL et injecter les matières officielles de MBH :
+```bash
+npm run setup-db
+```
+Pour vérifier l'état de votre configuration :
+```bash
+npm run check-config
+```
+
+### 4. Lancer le Serveur de Développement
+L'application est configurée pour tourner sur le port **3005** :
+```bash
+npm run dev
+# Accès sur http://localhost:3005
+```
+
+---
+
+## 🛡️ Modération & Administration
+
+Un espace d'administration est disponible sur `/admin` pour les utilisateurs dont l'email figure dans la variable `ADMIN_EMAIL` ou possède le rôle `admin` dans la table `utilisateurs` :
+- Validation ou rejet des épreuves soumises par les étudiants avec motifs.
+- Édition des métadonnées d'un dépôt existant et ajout a posteriori d'une correction manquante (fusion PDF automatique).
+- Ajout, modification et suppression des matières académiques.
+- Gestion des comptes administrateurs : promotion/rétrogradation d'un compte (onglet Utilisateurs), jamais sur son propre compte.
+- Métriques clés (total épreuves, contributeurs, téléchargements, vues, taux d'approbation, courbe des dépôts).
+- Suivi des profils étudiants et logs des connexions récentes.
+
+Tout fichier déposé (PDF, image ou DOCX) est converti automatiquement en PDF avant stockage ; si une correction est fournie, elle est fusionnée avec le sujet en un seul document.

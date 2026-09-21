@@ -39,13 +39,15 @@ export async function ensureAdminTablesExist() {
       CREATE INDEX IF NOT EXISTS idx_connexions_created_at ON connexions_log(created_at DESC);
     `;
 
-    // S'assurer que le compte administrateur principal est enregistré comme admin
-    const adminEmail = process.env.ADMIN_EMAIL || 'ulrrichmagbonde@gmail.com';
-    await sql`
-      INSERT INTO utilisateurs (email, nom, role, last_login)
-      VALUES (${adminEmail.toLowerCase()}, 'Ulrrich Magbonde (Admin)', 'admin', NOW())
-      ON CONFLICT (email) DO UPDATE SET role = 'admin';
-    `;
+    // S'assurer que le compte administrateur principal est enregistré comme admin s'il est configuré en variable d'environnement
+    const adminEmail = (process.env.ADMIN_EMAIL || process.env.SUPER_ADMIN_EMAIL)?.trim().toLowerCase();
+    if (adminEmail) {
+      await sql`
+        INSERT INTO utilisateurs (email, nom, role, last_login)
+        VALUES (${adminEmail}, 'Administrateur Principal', 'admin', NOW())
+        ON CONFLICT (email) DO UPDATE SET role = 'admin';
+      `;
+    }
 
     initialized = true;
     console.log('✅ Tables utilisateurs et connexions_log vérifiées avec succès sur Neon.');

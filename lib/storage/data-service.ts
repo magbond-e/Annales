@@ -238,8 +238,10 @@ export class DataService {
     // Requête count
     const countQuery  = `SELECT COUNT(*) FROM epreuves ${where}`;
     // Requête data
-    const page  = Math.max(1, params.page || 1);
-    const limit = Math.max(1, params.limit || 20);
+    const rawPage = Number(params.page) || 1;
+    const rawLimit = Number(params.limit) || 20;
+    const page  = Math.max(1, isNaN(rawPage) ? 1 : rawPage);
+    const limit = Math.min(Math.max(1, isNaN(rawLimit) ? 20 : rawLimit), 100);
     const offset = (page - 1) * limit;
     const dataQuery = `
       SELECT *
@@ -321,8 +323,10 @@ export class DataService {
       });
     }
 
-    const page   = Math.max(1, params.page || 1);
-    const limit  = Math.max(1, params.limit || 20);
+    const rawPage = Number(params.page) || 1;
+    const rawLimit = Number(params.limit) || 20;
+    const page   = Math.max(1, isNaN(rawPage) ? 1 : rawPage);
+    const limit  = Math.min(Math.max(1, isNaN(rawLimit) ? 20 : rawLimit), 100);
     const total  = filtered.length;
     const totalPages = Math.ceil(total / limit) || 1;
     const paginated = filtered.slice((page - 1) * limit, page * limit);
@@ -537,20 +541,81 @@ export class DataService {
 
   /**
    * Met à jour le statut d'une épreuve (admin: approuve, rejete, en_attente)
+   * En cas de rejet ('rejete'), le fichier distant (Cloudinary et S3) est définitivement purgé
+   * afin d'éviter l'hébergement de documents malveillants ou non conformes.
    */
   static async updateEpreuveStatut(id: string, statut: StatutEpreuve): Promise<boolean> {
-    if (isNeonConfigured()) {
+    if (statut === 'rejete') {
+      let epreuve: Epreuve | null = null;
       try {
-        await sql`UPDATE epreuves SET statut = ${statut} WHERE id = ${id}`;
-        return true;
+        epreuve = await this.getEpreuveById(id);
       } catch (err) {
-        console.error('Erreur Neon updateEpreuveStatut:', err);
-        return false;
+        console.warn('Erreur getEpreuveById avant rejet:', err);
+      }
+
+      if (epreuve) {
+        if (isCloudinaryConfigured() && epreuve.cloudinary_public_id && !epreuve.cloudinary_public_id.startsWith('mock_')) {
+          deleteFromCloudinary(epreuve.cloudinary_public_id).catch((err) =>
+            console.error('Erreur purge Cloudinary sur rejet:', err)
+          );
+          if (epreuve.corrige_cloudinary_public_id) {
+            deleteFromCloudinary(epreuve.corrige_cloudinary_public_id).catch((err) =>
+              console.error('Erreur purge Cloudinary corrigé sur rejet:', err)
+            );
+          }
+        }
+        if (isNeonStorageConfigured()) {
+          if (epreuve.s3_key) {
+            deleteFromNeonStorage(epreuve.s3_key).catch((err) =>
+              console.error('Erreur purge S3 sur rejet:', err)
+            );
+          }
+          if (epreuve.corrige_s3_key) {
+            deleteFromNeonStorage(epreuve.corrige_s3_key).catch((err) =>
+              console.error('Erreur purge S3 corrigé sur rejet:', err)
+            );
+          }
+        }
+      }
+
+      if (isNeonConfigured()) {
+        try {
+          await sql`
+            UPDATE epreuves 
+            SET statut = 'rejete',
+                cloudinary_url = '',
+                cloudinary_public_id = '',
+                s3_key = NULL,
+                corrige_url = NULL,
+                corrige_cloudinary_public_id = NULL,
+                corrige_s3_key = NULL
+            WHERE id = ${id}
+          `;
+          return true;
+        } catch (err) {
+          console.error('Erreur Neon updateEpreuveStatut (rejet):', err);
+          return false;
+        }
+      }
+    } else {
+      if (isNeonConfigured()) {
+        try {
+          await sql`UPDATE epreuves SET statut = ${statut} WHERE id = ${id}`;
+          return true;
+        } catch (err) {
+          console.error('Erreur Neon updateEpreuveStatut:', err);
+          return false;
+        }
       }
     }
+
     const epreuve = mockStore.epreuves.find((e) => e.id === id);
     if (epreuve) {
       epreuve.statut = statut;
+      if (statut === 'rejete') {
+        epreuve.cloudinary_url = '';
+        epreuve.cloudinary_public_id = '';
+      }
       return true;
     }
     return false;
@@ -748,18 +813,64 @@ export class DataService {
 
   /**
    * Mise à jour en masse du statut par un administrateur
+   * Purge automatique des fichiers distants en cas de rejet en lot.
    */
   static async updateEpreuvesStatutBulk(ids: string[], statut: StatutEpreuve): Promise<number> {
     if (!ids || ids.length === 0) return 0;
     let count = 0;
-    if (isNeonConfigured()) {
-      try {
-        const res = await sql`
-          UPDATE epreuves SET statut = ${statut} WHERE id = ANY(${ids}) RETURNING id;
-        `;
-        count = res.length;
-      } catch (err) {
-        console.error('Erreur Neon updateEpreuvesStatutBulk:', err);
+
+    if (statut === 'rejete') {
+      if (isNeonConfigured()) {
+        try {
+          const rows = await sql`
+            SELECT id, cloudinary_public_id, corrige_cloudinary_public_id, s3_key, corrige_s3_key
+            FROM epreuves
+            WHERE id = ANY(${ids});
+          `;
+          for (const r of rows) {
+            if (isCloudinaryConfigured() && r.cloudinary_public_id && !r.cloudinary_public_id.startsWith('mock_')) {
+              deleteFromCloudinary(r.cloudinary_public_id).catch((err) =>
+                console.error('Erreur purge bulk Cloudinary:', err)
+              );
+            }
+            if (isCloudinaryConfigured() && r.corrige_cloudinary_public_id) {
+              deleteFromCloudinary(r.corrige_cloudinary_public_id).catch((err) =>
+                console.error('Erreur purge bulk Cloudinary corrigé:', err)
+              );
+            }
+            if (isNeonStorageConfigured()) {
+              if (r.s3_key) deleteFromNeonStorage(r.s3_key).catch(console.error);
+              if (r.corrige_s3_key) deleteFromNeonStorage(r.corrige_s3_key).catch(console.error);
+            }
+          }
+
+          const res = await sql`
+            UPDATE epreuves 
+            SET statut = 'rejete',
+                cloudinary_url = '',
+                cloudinary_public_id = '',
+                s3_key = NULL,
+                corrige_url = NULL,
+                corrige_cloudinary_public_id = NULL,
+                corrige_s3_key = NULL
+            WHERE id = ANY(${ids})
+            RETURNING id;
+          `;
+          count = res.length;
+        } catch (err) {
+          console.error('Erreur Neon updateEpreuvesStatutBulk (rejet):', err);
+        }
+      }
+    } else {
+      if (isNeonConfigured()) {
+        try {
+          const res = await sql`
+            UPDATE epreuves SET statut = ${statut} WHERE id = ANY(${ids}) RETURNING id;
+          `;
+          count = res.length;
+        } catch (err) {
+          console.error('Erreur Neon updateEpreuvesStatutBulk:', err);
+        }
       }
     }
 
@@ -767,6 +878,10 @@ export class DataService {
       const item = mockStore.epreuves.find((e) => e.id === id);
       if (item) {
         item.statut = statut;
+        if (statut === 'rejete') {
+          item.cloudinary_url = '';
+          item.cloudinary_public_id = '';
+        }
         if (!isNeonConfigured()) count++;
       }
     });

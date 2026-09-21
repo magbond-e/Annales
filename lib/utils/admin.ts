@@ -38,7 +38,7 @@ export function getStaticAdminEmails(): Set<string> {
 
 /**
  * Vérifie si un compte est un Super Admin fondateur (ne peut pas être rétrogradé).
- * Vérifie SUPER_ADMIN_EMAIL, SUPER_ADMIN_EMAILS (liste), NEXT_PUBLIC_SUPER_ADMIN_EMAIL,
+ * Vérifie SUPER_ADMIN_EMAIL, SUPER_ADMIN_EMAILS (liste),
  * et ADMIN_EMAIL comme dernier recours.
  */
 export function isSuperAdmin(email?: string | null): boolean {
@@ -49,7 +49,7 @@ export function isSuperAdmin(email?: string | null): boolean {
   const superAdminEmails = new Set<string>();
 
   // Variable unique
-  const single = process.env.SUPER_ADMIN_EMAIL || process.env.NEXT_PUBLIC_SUPER_ADMIN_EMAIL;
+  const single = process.env.SUPER_ADMIN_EMAIL;
   if (single) {
     superAdminEmails.add(single.trim().toLowerCase());
   }

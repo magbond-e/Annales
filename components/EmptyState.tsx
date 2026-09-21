@@ -52,7 +52,7 @@ export function EmptyState({
               className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-brand to-teal-700 hover:from-brand-hover hover:to-teal-800 rounded-xl shadow-md shadow-brand/20 transition-all hover:scale-[1.02] active:scale-98"
             >
               <Upload className="w-4 h-4 text-emerald-300" />
-              <span>Déposer cette épreuve</span>
+              <span>Déposer une épreuve</span>
             </Link>
           )}
         </div>

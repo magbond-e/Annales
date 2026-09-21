@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { buildZipFromFilters, buildZipFromIds } from '@/lib/storage/zip-service';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { isUserAdminAsync } from '@/lib/utils/admin';
 
 export const dynamic = 'force-dynamic';
 // Les ZIPs peuvent être lourds : augmenter le timeout de la route Next.js
@@ -74,11 +75,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Authentification requise.' }, { status: 401 });
     }
 
+    const userIsAdmin = await isUserAdminAsync(session.user.email);
+    if (!userIsAdmin) {
+      return NextResponse.json(
+        { error: 'Accès réservé aux administrateurs.' },
+        { status: 403 }
+      );
+    }
+
     const body = await req.json();
-    const ids: string[] = Array.isArray(body.ids) ? body.ids : [];
+    const rawIds = Array.isArray(body.ids) ? body.ids : [];
+    const ids: string[] = rawIds
+      .filter((id: unknown): id is string => typeof id === 'string' && id.trim().length > 0)
+      .map((id: string) => id.trim());
 
     if (ids.length === 0) {
-      return NextResponse.json({ error: 'Aucun identifiant fourni.' }, { status: 400 });
+      return NextResponse.json({ error: 'Aucun identifiant valide fourni.' }, { status: 400 });
     }
 
     const result = await buildZipFromIds(ids);

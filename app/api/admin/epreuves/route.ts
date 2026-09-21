@@ -19,8 +19,10 @@ export async function GET(req: NextRequest) {
     const annee = searchParams.get('annee') || undefined;
     const type = searchParams.get('type') || undefined;
     const q = searchParams.get('q') || undefined;
-    const page = parseInt(searchParams.get('page') || '1', 10);
-    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const rawPage = parseInt(searchParams.get('page') || '1', 10);
+    const rawLimit = parseInt(searchParams.get('limit') || '50', 10);
+    const page = Math.max(1, isNaN(rawPage) ? 1 : rawPage);
+    const limit = Math.min(Math.max(1, isNaN(rawLimit) ? 50 : rawLimit), 100);
 
     const result = await DataService.getEpreuves({
       statut,
