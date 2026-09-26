@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { ConfirmModal } from '@/components/ConfirmModal';
@@ -27,7 +27,14 @@ import {
 } from 'lucide-react';
 
 export default function MesDepotsPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // Redirection Google si non connecté
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      signIn('google', { callbackUrl: '/mes-depots' });
+    }
+  }, [status]);
 
   const [epreuves, setEpreuves] = useState<Epreuve[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,33 +131,32 @@ export default function MesDepotsPage() {
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-28 md:pb-16">
         {/* En-tête Dashboard avec statistiques */}
         <div className="rounded-3xl bg-white dark:bg-[#161B22] border border-slate-200/80 dark:border-[#30363D] p-6 sm:p-8 shadow-card mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 text-[11px] font-bold text-amber-800 dark:text-amber-300 mb-2">
-                <FolderArchive className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                <span>Espace Contributeur</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-ink-primary dark:text-[#F0F6FC] tracking-tight">
-                Mes épreuves déposées
+              <p className="eyebrow mb-2">
+                <span>01</span> ESPACE CONTRIBUTEUR · MBH EPAC
+              </p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold font-heading text-slate-900 dark:text-[#F0F6FC] tracking-tight">
+                Mes épreuves <em className="text-emerald-500 not-italic font-extrabold">déposées</em>
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-ink-secondary dark:text-slate-400">
+              <p className="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                 Consultez, partagez ou supprimez les documents que vous avez partagés avec la communauté.
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="px-4 py-2 bg-slate-50 dark:bg-[#21262D] border border-slate-200 dark:border-[#30363D] rounded-2xl text-center">
-                <span className="block text-xl font-black text-brand dark:text-emerald-400">{epreuves.length}</span>
-                <span className="text-[10px] font-bold text-ink-muted dark:text-slate-400 uppercase tracking-wider">
+            <div className="flex items-center gap-3 font-mono">
+              <div className="px-4 py-2 bg-slate-50 dark:bg-[#21262D] border border-slate-200 dark:border-[#30363D] rounded-2xl text-center min-w-[80px]">
+                <span className="block text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{epreuves.length}</span>
+                <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Dépôt{epreuves.length > 1 ? 's' : ''}
                 </span>
               </div>
 
               <Link
                 href="/deposer"
-                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-brand to-teal-700 hover:from-brand-hover hover:to-teal-800 text-white text-xs sm:text-sm font-bold rounded-2xl transition-all shadow-md shadow-brand/20 active:scale-98"
+                className="annale-button annale-button--light font-sans font-bold text-xs sm:text-sm shadow-md"
               >
-                <Plus className="w-4 h-4 text-emerald-300" />
+                <Plus className="w-4 h-4 text-white" />
                 <span>Nouveau dépôt</span>
               </Link>
             </div>

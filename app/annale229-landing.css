@@ -1,0 +1,1558 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap");
+
+/* Annale229 editorial design system — Petroleum, Slate & Emerald */
+.annale {
+  --a-paper: #0D1117;
+  --a-pale: #161B22;
+  --a-ink: #F0F6FC;
+  --a-teal: #38BDF8;
+  --a-brand-teal: #0F4C5C;
+  --a-emerald: #10B981;
+  --a-emerald-glow: #34D399;
+  --a-logo: #10B981;
+  --a-slate: #8B949E;
+  --a-night: #0D1117;
+  --a-line: rgba(48, 54, 61, 0.85);
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+  background: var(--a-paper);
+  color: var(--a-ink);
+  font-family: "Inter", sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+.annale :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.annale :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.annale :where(a, button, summary) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.annale :where(a:focus-visible, summary:focus-visible, button:focus-visible) {
+  outline: 2px solid var(--a-emerald);
+  outline-offset: 3px;
+}
+
+.annale h1,
+.annale h2,
+.annale h3,
+.annale p {
+  margin-top: 0;
+}
+
+.annale h2 {
+  margin-bottom: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(2rem, 4.3vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.annale h2 em {
+  color: var(--a-logo);
+  font-style: normal;
+  font-weight: 800;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HEADER — Sticky & Glassmorphism with Mobile Navigation
+══════════════════════════════════════════════════════════ */
+.annale-header {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 0 clamp(1rem, 4.5vw, 4.5rem);
+  border-bottom: 1px solid var(--a-line);
+  background: rgba(13, 17, 23, 0.88);
+  color: var(--a-ink);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.annale-brand,
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brand-icon {
+  display: block;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 9px;
+  object-fit: contain;
+}
+
+.brand-wordmark {
+  color: var(--a-logo);
+  font: 700 1.12rem/1 "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.annale-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2.2vw, 2.2rem);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(240, 246, 252, 0.78);
+}
+
+.annale-nav a,
+.annale-header-action,
+.annale-footer a {
+  transition: color 0.2s ease;
+}
+
+.annale-nav a:hover,
+.annale-header-action:hover,
+.annale-footer a:hover {
+  color: var(--a-emerald);
+}
+
+.annale-header-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #F0F6FC;
+  transition: all 0.2s ease;
+}
+
+.annale-header-action:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--a-emerald);
+  transform: translateY(-1px);
+}
+
+.annale-header-action span {
+  color: var(--a-emerald);
+  font-size: 0.95rem;
+  transition: transform 0.2s ease;
+}
+
+.annale-header-action:hover span {
+  transform: translate(2px, -2px);
+}
+
+/* Mobile Menu Toggle Button */
+.annale-mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--a-line);
+  color: var(--a-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.annale-mobile-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Drawer */
+.annale-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  background: rgba(13, 17, 23, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.5rem 1.25rem 3rem;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 1px solid var(--a-line);
+  overflow-y: auto;
+  animation: mobileFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes mobileFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.annale-mobile-menu.is-open {
+  display: flex;
+}
+
+.annale-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.annale-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--a-ink);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.15s ease;
+}
+
+.annale-mobile-link:active,
+.annale-mobile-link:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--a-emerald);
+}
+
+.annale-mobile-link span:last-child {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--a-teal);
+}
+
+.annale-mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--a-line);
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT SHELL & TYPOGRAPHY
+══════════════════════════════════════════════════════════ */
+.section-shell {
+  width: min(1320px, calc(100% - clamp(2rem, 10vw, 10rem)));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.6rem !important;
+  color: var(--a-teal);
+  font: 500 0.72rem/1.2 "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrow > span:first-child {
+  color: var(--a-emerald);
+  font-weight: 700;
+}
+
+.eyebrow--light {
+  color: rgba(240, 246, 252, 0.75);
+}
+
+.section-copy {
+  max-width: 44ch;
+  margin: 1.5rem 0 0;
+  color: var(--a-slate);
+  font-size: clamp(0.96rem, 1.15vw, 1.12rem);
+  line-height: 1.75;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.8rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--a-teal);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.text-link span {
+  color: var(--a-emerald);
+  transition: transform 0.2s ease;
+}
+
+.text-link:hover {
+  border-color: var(--a-emerald);
+}
+
+.text-link:hover span {
+  transform: translate(3px, -3px);
+}
+
+.annale-button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 0 1.4rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.annale-button:hover {
+  transform: translateY(-2px);
+}
+
+.annale-button span {
+  font-size: 1rem;
+}
+
+.annale-button--light {
+  background: linear-gradient(100deg, var(--a-brand-teal), var(--a-logo));
+  color: #F0F6FC !important;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.25);
+}
+
+.annale-button--light:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.38);
+}
+
+.annale-button--outline {
+  border-color: rgba(248, 250, 252, 0.4);
+  background: rgba(13, 17, 23, 0.4);
+  color: var(--a-ink) !important;
+  backdrop-filter: blur(8px);
+}
+
+.annale-button--outline:hover {
+  border-color: var(--a-ink);
+  background: rgba(248, 250, 252, 0.1);
+}
+
+.annale-button--green {
+  margin-top: 2rem;
+  background: linear-gradient(100deg, var(--a-brand-teal), var(--a-logo));
+  color: #F0F6FC;
+  box-shadow: 0 4px 20px rgba(15, 76, 92, 0.4);
+}
+
+.annale-button--green:hover {
+  filter: brightness(1.08);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL SCRUB HERO ADJUSTMENTS
+══════════════════════════════════════════════════════════ */
+.scroll-scrub {
+  min-height: 400vh;
+}
+
+.scroll-scrub__stage {
+  height: 100svh;
+}
+
+.scroll-scrub__media::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 15, 19, 0.82) 0%,
+      rgba(7, 15, 19, 0.58) 32%,
+      rgba(7, 15, 19, 0.2) 68%,
+      rgba(7, 15, 19, 0.12) 100%
+    ),
+    linear-gradient(0deg, rgba(7, 15, 19, 0.38) 0%, transparent 34%, rgba(7, 15, 19, 0.25) 100%);
+  pointer-events: none;
+}
+
+.scroll-scrub__route {
+  top: 5rem !important;
+  right: 0 !important;
+  left: 0 !important;
+  justify-content: center !important;
+  gap: 0.35rem !important;
+}
+
+.scroll-scrub__route-button {
+  min-height: 2.2rem !important;
+  padding: 0.4rem 0.85rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 9999px;
+  color: rgba(248, 250, 252, 0.68) !important;
+  font: 500 0.72rem/1 "IBM Plex Mono", monospace !important;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+}
+
+.scroll-scrub__route-button[aria-current="step"] {
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  background: rgba(13, 17, 23, 0.75);
+  color: #FFF !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+}
+
+.scroll-scrub__route-button[aria-current="step"]::before {
+  content: "·";
+  margin-right: 0.45rem;
+  color: var(--a-emerald);
+  font-weight: 700;
+}
+
+.scroll-scrub__chapter-pin {
+  padding: 7rem clamp(1.5rem, 8vw, 8rem) 3rem !important;
+}
+
+.scroll-scrub__copy {
+  width: min(44rem, 52vw) !important;
+}
+
+.scroll-scrub__copy::before {
+  inset: -4rem -5rem !important;
+  background: radial-gradient(
+    ellipse at 44% 52%,
+    rgba(13, 17, 23, 0.82) 0%,
+    rgba(13, 17, 23, 0.45) 54%,
+    transparent 80%
+  ) !important;
+}
+
+.scroll-scrub__kicker {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem !important;
+  color: var(--a-emerald) !important;
+  font: 600 0.74rem/1.3 "IBM Plex Mono", monospace !important;
+  letter-spacing: 0.12em !important;
+}
+
+.scroll-scrub__title {
+  max-width: 10ch !important;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-size: clamp(2.8rem, 5.2vw, 5.2rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.045em !important;
+}
+
+.scroll-scrub__body {
+  max-width: 42ch !important;
+  margin-top: 1.3rem !important;
+  color: rgba(240, 246, 252, 0.88) !important;
+  font-size: clamp(0.98rem, 1.2vw, 1.15rem) !important;
+  line-height: 1.65 !important;
+}
+
+.scroll-scrub__tags {
+  gap: 0.5rem !important;
+  margin-top: 1.25rem !important;
+}
+
+.scroll-scrub__tags li {
+  padding: 0.4rem 0.65rem !important;
+  border-color: rgba(240, 246, 252, 0.2) !important;
+  color: rgba(240, 246, 252, 0.9) !important;
+  font: 500 0.68rem/1.1 "IBM Plex Mono", monospace !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  background: rgba(22, 27, 34, 0.4);
+}
+
+.scroll-scrub__actions {
+  gap: 0.75rem !important;
+  margin-top: 1.6rem !important;
+}
+
+.scroll-scrub__progress {
+  top: auto !important;
+  bottom: 0;
+  height: 3px !important;
+  background: rgba(248, 250, 252, 0.2) !important;
+}
+
+.scroll-scrub__progress span {
+  background: var(--a-emerald) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION 01: L'ARCHIVE MBH & ANGLED SHEET
+══════════════════════════════════════════════════════════ */
+.archive-section {
+  position: relative;
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background: var(--a-paper);
+}
+
+.archive-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 6rem);
+}
+
+.archive-intro {
+  position: relative;
+  padding: 1rem 0 2rem;
+}
+
+.archive-intro h2 {
+  max-width: 12ch;
+}
+
+.archive-intro h2 em,
+.steps-heading h2 em,
+.faq-heading h2 em {
+  color: var(--a-teal);
+}
+
+.archive-index-mark {
+  position: absolute;
+  right: -0.5rem;
+  bottom: -3.5rem;
+  display: flex;
+  width: 130px;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 50%;
+  color: var(--a-teal);
+  font: 500 0.58rem/1.3 "IBM Plex Mono", monospace;
+  letter-spacing: 0.16em;
+  transform: rotate(-12deg);
+  background: rgba(13, 17, 23, 0.6);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.archive-index-mark strong {
+  font: 800 2.5rem/0.95 "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.06em;
+  color: #F0F6FC;
+}
+
+.archive-sheet {
+  position: relative;
+  padding: clamp(1.4rem, 2.8vw, 2.6rem);
+  border: 1px solid var(--a-line);
+  background: #161B22;
+  border-radius: 16px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: rotate(1.4deg);
+  transition: transform 0.4s ease;
+}
+
+.archive-sheet:hover {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+.archive-sheet::before {
+  position: absolute;
+  z-index: -1;
+  inset: 10px -10px -10px 10px;
+  content: "";
+  background: #21262D;
+  border-radius: 16px;
+  border: 1px solid rgba(48, 54, 61, 0.5);
+  transform: rotate(-2.2deg);
+}
+
+.sheet-topline,
+.sheet-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--a-slate);
+  font: 500 0.65rem/1.4 "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.sheet-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.6rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--a-line);
+  font: 700 clamp(1.15rem, 1.8vw, 1.55rem)/1.2 "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.025em;
+  color: #F0F6FC;
+}
+
+.sheet-seal {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 50%;
+  color: var(--a-teal);
+  font: 700 0.85rem/1 "IBM Plex Mono", monospace;
+}
+
+.subject-index {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subject-index li {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr 1.2rem;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid rgba(240, 246, 252, 0.08);
+  font-size: clamp(0.82rem, 1vw, 0.94rem);
+  color: rgba(240, 246, 252, 0.88);
+  transition: all 0.2s ease;
+}
+
+.subject-index li:hover {
+  color: var(--a-emerald);
+  transform: translateX(4px);
+}
+
+.subject-number,
+.subject-mark {
+  color: var(--a-teal);
+  font: 500 0.7rem/1 "IBM Plex Mono", monospace;
+}
+
+.subject-mark {
+  justify-self: end;
+  color: var(--a-logo);
+  transition: transform 0.2s ease;
+}
+
+.subject-index li:hover .subject-mark {
+  transform: translate(2px, -2px);
+}
+
+.sheet-footer {
+  padding-top: 1.2rem;
+  font-size: 0.58rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION 02: WAYFINDING ("TROUVER SANS DÉTOUR")
+══════════════════════════════════════════════════════════ */
+.find-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background: var(--a-brand-teal);
+  color: var(--a-ink);
+}
+
+.find-section::after {
+  position: absolute;
+  top: -26rem;
+  right: -15rem;
+  width: 52rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 54px rgba(248, 250, 252, 0.03),
+    0 0 0 108px rgba(248, 250, 252, 0.03);
+  content: "";
+  pointer-events: none;
+}
+
+.find-section .section-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.find-heading {
+  max-width: 730px;
+}
+
+.find-heading h2 em,
+.closing-inner h2 em {
+  color: var(--a-logo);
+}
+
+.section-copy--light {
+  color: rgba(248, 250, 252, 0.78);
+}
+
+.wayfinding {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  border-top: 1px solid rgba(248, 250, 252, 0.26);
+  border-bottom: 1px solid rgba(248, 250, 252, 0.26);
+}
+
+.wayfinding-step {
+  display: flex;
+  min-height: 150px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.4rem 1.4rem;
+  transition: background 0.25s ease;
+}
+
+.wayfinding-step:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.wayfinding-label,
+.wayfinding-caption {
+  color: rgba(248, 250, 252, 0.65);
+  font: 500 0.68rem/1.35 "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wayfinding-value {
+  font: 700 clamp(1.15rem, 1.8vw, 1.6rem)/1.2 "Plus Jakarta Sans", sans-serif;
+  color: #FFF;
+}
+
+.wayfinding-caption {
+  font: 400 0.8rem/1.4 "Inter", sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.wayfinding-divider {
+  display: grid;
+  place-items: center;
+  padding: 0 0.5rem;
+  color: var(--a-emerald);
+  font-size: 1.1rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION 03: LE CYCLE & STEPS
+══════════════════════════════════════════════════════════ */
+.steps-section {
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background: var(--a-paper);
+}
+
+.steps-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.steps-heading .eyebrow {
+  align-self: flex-start;
+  margin: 0.5rem 0 0 !important;
+}
+
+.steps-heading h2 {
+  max-width: 14ch;
+}
+
+.steps-rail {
+  border-top: 1px solid var(--a-line);
+}
+
+.step-row {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(3rem, 0.5fr) minmax(15rem, 1.5fr) 6rem;
+  align-items: center;
+  min-height: 130px;
+  gap: 1.2rem;
+  border-bottom: 1px solid var(--a-line);
+  padding: 1rem 0;
+  transition: background 0.2s ease;
+}
+
+.step-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.step-count {
+  color: var(--a-teal);
+  font: 600 1.25rem/1 "IBM Plex Mono", monospace;
+}
+
+.step-rule {
+  height: 1px;
+  background: rgba(56, 189, 248, 0.35);
+}
+
+.step-row h3 {
+  margin-bottom: 0.45rem;
+  font: 700 1.22rem/1.25 "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.02em;
+  color: #F0F6FC;
+}
+
+.step-row p {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--a-slate);
+  font-size: 0.91rem;
+  line-height: 1.65;
+}
+
+.step-side-note {
+  justify-self: end;
+  color: var(--a-slate);
+  font: 600 0.65rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--a-line);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION 04: LA FILIÈRE MBH & ORBIT STAMP
+══════════════════════════════════════════════════════════ */
+.program-section {
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background: var(--a-pale);
+}
+
+.program-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: start;
+}
+
+.program-stamp {
+  position: sticky;
+  top: 18vh;
+  display: flex;
+  width: min(24vw, 270px);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 2rem auto 0;
+  padding: 2rem 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  color: var(--a-teal);
+  font: 600 0.68rem/1.2 "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  background: rgba(13, 17, 23, 0.4);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.1);
+}
+
+.stamp-orbit {
+  display: grid;
+  width: 66%;
+  place-items: center;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  font: 800 clamp(2.2rem, 5vw, 4rem)/1 "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.06em;
+  color: #F0F6FC;
+}
+
+.program-content h2 {
+  max-width: 14ch;
+}
+
+.program-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 2rem;
+  margin: 2.2rem 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(240, 246, 252, 0.12);
+  list-style: none;
+}
+
+.program-list li {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 0.9rem;
+  border-bottom: 1px solid rgba(240, 246, 252, 0.1);
+  font-size: 0.85rem;
+  color: rgba(240, 246, 252, 0.88);
+  line-height: 1.4;
+}
+
+.program-list li > span {
+  flex: 0 0 1.5rem;
+  color: var(--a-teal);
+  font: 600 0.68rem/1 "IBM Plex Mono", monospace;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION 05: À L’ORIGINE DU PROJET (FOUNDER)
+══════════════════════════════════════════════════════════ */
+.origin-section {
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background: var(--a-night);
+  color: var(--a-ink);
+}
+
+.origin-layout {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: clamp(2rem, 7vw, 7rem);
+}
+
+.origin-layout > .eyebrow {
+  align-self: start;
+}
+
+.origin-copy {
+  position: relative;
+  max-width: 760px;
+  padding-top: 1rem;
+}
+
+.origin-quote {
+  position: absolute;
+  top: -4.5rem;
+  left: -2rem;
+  color: var(--a-emerald);
+  font: 400 8.5rem/0.8 Georgia, serif;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.origin-copy h2 {
+  position: relative;
+  max-width: 14ch;
+  font-size: clamp(2.4rem, 4.4vw, 4.4rem);
+}
+
+.origin-copy h2 em {
+  color: var(--a-logo);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.origin-copy > p {
+  max-width: 62ch;
+  margin: 2rem 0 0;
+  color: rgba(248, 250, 252, 0.75);
+  font-size: 0.98rem;
+  line-height: 1.8;
+}
+
+.origin-signature {
+  display: block;
+  margin-top: 2.2rem;
+  color: var(--a-ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.origin-signature span {
+  color: rgba(248, 250, 252, 0.55);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION 06: QUESTIONS FRÉQUENTES (FAQ)
+══════════════════════════════════════════════════════════ */
+.faq-section {
+  padding: clamp(6rem, 10vw, 10rem) 0;
+  background: var(--a-paper);
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: start;
+}
+
+.faq-heading h2 {
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+}
+
+.faq-list {
+  border-top: 1px solid var(--a-line);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--a-line);
+}
+
+.faq-item summary {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 2rem;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 70px;
+  cursor: pointer;
+  list-style: none;
+  font: 700 1.05rem/1.35 "Plus Jakarta Sans", sans-serif;
+  color: #F0F6FC;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+}
+
+.faq-item summary:hover {
+  color: var(--a-emerald);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-number {
+  color: var(--a-teal);
+  font: 600 0.72rem/1 "IBM Plex Mono", monospace;
+}
+
+.faq-toggle {
+  justify-self: end;
+  color: var(--a-teal);
+  font: 400 1.5rem/1 "Inter", sans-serif;
+  transition: transform 0.25s ease, color 0.2s ease;
+}
+
+.faq-item[open] .faq-toggle {
+  transform: rotate(45deg);
+  color: var(--a-emerald);
+}
+
+.faq-item > p {
+  max-width: 58ch;
+  margin: -0.2rem 2.5rem 1.6rem 3.1rem;
+  color: var(--a-slate);
+  font-size: 0.91rem;
+  line-height: 1.7;
+  animation: faqOpen 0.25s ease-out;
+}
+
+@keyframes faqOpen {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   CLOSING SECTION & FOOTER
+══════════════════════════════════════════════════════════ */
+.closing-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(6rem, 10vw, 10rem) 0;
+  background: var(--a-night);
+  color: var(--a-ink);
+}
+
+.closing-inner {
+  position: relative;
+}
+
+.closing-inner .eyebrow {
+  max-width: 40ch;
+}
+
+.closing-inner h2 {
+  max-width: 15ch;
+  font-size: clamp(2.8rem, 5.4vw, 5.2rem);
+}
+
+.closing-inner h2 em {
+  font-style: normal;
+  font-weight: 800;
+}
+
+.closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2.5rem;
+}
+
+.closing-ornament {
+  position: absolute;
+  right: -1rem;
+  bottom: -4.5rem;
+  color: rgba(248, 250, 252, 0.08);
+  font: 800 clamp(4rem, 10vw, 9rem)/0.86 "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.09em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.closing-ornament span {
+  color: rgba(16, 185, 129, 0.45);
+  font-size: 0.36em;
+  vertical-align: 40%;
+}
+
+.annale-footer {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto auto;
+  align-items: center;
+  gap: 2rem;
+  min-height: 90px;
+  padding: 1.5rem clamp(1.25rem, 5vw, 5rem);
+  background: var(--a-night);
+  border-top: 1px solid var(--a-line);
+  color: rgba(240, 246, 252, 0.75);
+  font-size: 0.78rem;
+}
+
+.footer-brand .brand-wordmark {
+  font-size: 1.05rem;
+}
+
+.annale-footer nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-year {
+  color: rgba(248, 250, 252, 0.45);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+══════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.annale-motion-ready .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.annale-motion-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@supports (animation-timeline: view()) {
+  .archive-sheet {
+    animation: archive-drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+
+  @keyframes archive-drift {
+    from {
+      transform: translateY(24px) rotate(1.4deg);
+    }
+    to {
+      transform: translateY(-20px) rotate(-0.4deg);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN (TABLETS & DESKTOPS < 1000px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 1000px) {
+  .annale-nav {
+    display: none;
+  }
+  .annale-mobile-toggle {
+    display: flex;
+  }
+  .archive-layout,
+  .program-layout {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 3rem;
+  }
+  .archive-index-mark {
+    right: -2rem;
+    width: 120px;
+  }
+  .step-row {
+    grid-template-columns: 3rem minmax(2.5rem, 0.35fr) minmax(15rem, 1.5fr) 5rem;
+  }
+  .annale-footer {
+    grid-template-columns: 1fr auto auto;
+  }
+  .annale-footer > span:nth-child(2) {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN (MOBILE SMARTPHONES < 768px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .annale-header {
+    min-height: 60px;
+    padding-inline: 1rem;
+  }
+
+  .brand-icon {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .brand-wordmark {
+    font-size: 1.02rem;
+  }
+
+  .annale-header-action {
+    display: none; /* Accessible via mobile drawer */
+  }
+
+  .scroll-scrub__route {
+    top: 4.4rem !important;
+    justify-content: flex-start !important;
+    overflow-x: auto;
+    padding: 0 1rem;
+    gap: 0.25rem !important;
+  }
+
+  .scroll-scrub__route-button {
+    padding-inline: 0.7rem !important;
+    font-size: 0.66rem !important;
+  }
+
+  .scroll-scrub__chapter-pin,
+  .scroll-scrub__chapter[data-align="right"] .scroll-scrub__chapter-pin {
+    align-items: flex-end;
+    justify-content: flex-start;
+    min-height: 100svh;
+    padding: 6rem 1.25rem calc(2.5rem + env(safe-area-inset-bottom)) !important;
+  }
+
+  .scroll-scrub__copy {
+    width: 100% !important;
+    max-width: 36rem !important;
+  }
+
+  .scroll-scrub__copy::before {
+    inset: -2rem -1.25rem !important;
+    background: linear-gradient(
+      0deg,
+      rgba(13, 17, 23, 0.98) 0%,
+      rgba(13, 17, 23, 0.85) 55%,
+      transparent 100%
+    ) !important;
+  }
+
+  .scroll-scrub__title {
+    max-width: 10ch !important;
+    font-size: clamp(2.3rem, 10vw, 3.6rem) !important;
+  }
+
+  .scroll-scrub__body {
+    max-width: 36ch;
+    margin-top: 0.85rem !important;
+    font-size: 0.94rem !important;
+  }
+
+  .scroll-scrub__tags {
+    margin-top: 0.9rem !important;
+  }
+
+  .scroll-scrub__actions {
+    gap: 0.6rem !important;
+    margin-top: 1.2rem !important;
+  }
+
+  .scroll-scrub__actions .annale-button {
+    min-height: 46px;
+    padding-inline: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .section-shell {
+    width: calc(100% - 2rem);
+  }
+
+  .archive-section,
+  .steps-section,
+  .program-section,
+  .origin-section,
+  .faq-section {
+    padding-block: 4rem;
+  }
+
+  .archive-layout,
+  .program-layout,
+  .origin-layout,
+  .faq-layout {
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+  }
+
+  .archive-intro {
+    padding-bottom: 0;
+  }
+
+  .archive-intro h2,
+  .steps-heading h2,
+  .program-content h2,
+  .faq-heading h2 {
+    font-size: clamp(2.1rem, 8.5vw, 3.2rem);
+  }
+
+  .archive-index-mark {
+    right: 0;
+    bottom: -1.2rem;
+    width: 88px;
+    font-size: 0.44rem;
+  }
+
+  .archive-index-mark strong {
+    font-size: 1.75rem;
+  }
+
+  .archive-sheet {
+    padding: 1.25rem;
+    transform: none !important;
+    border-radius: 14px;
+  }
+
+  .archive-sheet::before {
+    inset: 6px -4px -6px 4px;
+    transform: none;
+    border-radius: 14px;
+  }
+
+  .sheet-title {
+    margin-top: 1.4rem;
+  }
+
+  .subject-index li {
+    min-height: 46px;
+    grid-template-columns: 1.8rem 1fr 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .sheet-footer {
+    font-size: 0.54rem;
+  }
+
+  .find-section,
+  .closing-section {
+    padding-block: 4.2rem;
+  }
+
+  .find-heading h2,
+  .closing-inner h2 {
+    font-size: clamp(2.2rem, 8.5vw, 3.4rem);
+  }
+
+  .wayfinding {
+    grid-template-columns: 1fr;
+    margin-top: 2.5rem;
+    border-bottom: 0;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(248, 250, 252, 0.15);
+  }
+
+  .wayfinding-step {
+    min-height: 110px;
+    padding: 1.1rem 1.1rem;
+    border-bottom: 1px solid rgba(248, 250, 252, 0.15);
+  }
+
+  .wayfinding-step:last-child {
+    border-bottom: 0;
+  }
+
+  .wayfinding-divider {
+    display: none;
+  }
+
+  .wayfinding-value {
+    font-size: 1.35rem;
+  }
+
+  .steps-heading {
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  .steps-heading .eyebrow {
+    margin-bottom: 1.4rem !important;
+  }
+
+  .step-row {
+    grid-template-columns: 2.4rem 1fr;
+    grid-template-rows: auto auto;
+    min-height: auto;
+    gap: 0.6rem 0.8rem;
+    padding-block: 1.25rem;
+  }
+
+  .step-rule {
+    display: none;
+  }
+
+  .step-side-note {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: 0.25rem;
+  }
+
+  .step-row h3 {
+    font-size: 1.12rem;
+  }
+
+  .step-row p {
+    font-size: 0.84rem;
+  }
+
+  .program-stamp {
+    position: relative;
+    top: auto;
+    width: min(50vw, 200px);
+    margin: 0 auto;
+  }
+
+  .program-list {
+    grid-template-columns: 1fr;
+    margin-top: 1.8rem;
+  }
+
+  .program-list li {
+    min-height: 48px;
+  }
+
+  .origin-layout {
+    gap: 1.8rem;
+  }
+
+  .origin-quote {
+    top: -3.2rem;
+    left: -0.5rem;
+    font-size: 5.5rem;
+  }
+
+  .origin-copy h2 {
+    font-size: clamp(2.1rem, 8.5vw, 3.2rem);
+  }
+
+  .faq-layout {
+    gap: 2rem;
+  }
+
+  .faq-item summary {
+    grid-template-columns: 1.8rem 1fr 1.5rem;
+    min-height: 68px;
+    font-size: 0.98rem;
+  }
+
+  .faq-item > p {
+    margin-left: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  .closing-actions {
+    align-items: stretch;
+    flex-direction: column;
+    max-width: 22rem;
+  }
+
+  .closing-ornament {
+    right: -1rem;
+    bottom: -2.5rem;
+    font-size: 4.8rem;
+  }
+
+  .annale-footer {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-block: 1.8rem;
+    text-align: center;
+  }
+
+  .footer-brand {
+    justify-content: center;
+  }
+
+  .annale-footer nav {
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .footer-year {
+    justify-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .annale,
+  .annale * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .annale-motion-ready .reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .archive-sheet {
+    animation: none !important;
+  }
+}
+
+html:has(.annale) {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.annale) {
+    scroll-behavior: auto;
+  }
+}

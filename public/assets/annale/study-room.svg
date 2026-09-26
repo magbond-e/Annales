@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" fill="none">
+<defs>
+ <linearGradient id="wall" x1="100" y1="0" x2="1780" y2="1100" gradientUnits="userSpaceOnUse"><stop stop-color="#173D45"/><stop offset=".52" stop-color="#0F3038"/><stop offset="1" stop-color="#0D1117"/></linearGradient>
+ <linearGradient id="wash" x1="1500" y1="80" x2="940" y2="980" gradientUnits="userSpaceOnUse"><stop stop-color="#EAF4F6" stop-opacity=".44"/><stop offset=".48" stop-color="#A9CACD" stop-opacity=".12"/><stop offset="1" stop-color="#0D1117" stop-opacity="0"/></linearGradient>
+ <linearGradient id="skin" x1="940" y1="335" x2="1190" y2="760" gradientUnits="userSpaceOnUse"><stop stop-color="#9C6145"/><stop offset=".48" stop-color="#78452F"/><stop offset="1" stop-color="#49352C"/></linearGradient>
+ <linearGradient id="shirt" x1="720" y1="540" x2="1300" y2="1040" gradientUnits="userSpaceOnUse"><stop stop-color="#1A4F58"/><stop offset="1" stop-color="#0F272D"/></linearGradient>
+ <linearGradient id="paper" x1="585" y1="715" x2="1360" y2="1060" gradientUnits="userSpaceOnUse"><stop stop-color="#FBFAF6"/><stop offset="1" stop-color="#C9D7D4"/></linearGradient>
+ <linearGradient id="desk" x1="350" y1="890" x2="1550" y2="1170" gradientUnits="userSpaceOnUse"><stop stop-color="#51453B"/><stop offset=".55" stop-color="#312D2A"/><stop offset="1" stop-color="#191F20"/></linearGradient>
+ <radialGradient id="warm" cx="0" cy="0" r="1" gradientTransform="matrix(290 185 -250 380 1110 525)" gradientUnits="userSpaceOnUse"><stop stop-color="#D9A370" stop-opacity=".23"/><stop offset="1" stop-color="#D9A370" stop-opacity="0"/></radialGradient>
+ <pattern id="grain" width="23" height="23" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".7" fill="#EAF4F6" fill-opacity=".17"/><circle cx="14" cy="17" r=".6" fill="#EAF4F6" fill-opacity=".14"/></pattern>
+ <filter id="shadow"><feGaussianBlur stdDeviation="27"/></filter>
+</defs>
+<path fill="url(#wall)" d="M0 0h1920v1200H0z"/>
+<path fill="#0D1117" fill-opacity=".30" d="M0 0h1920v1200H0z"/>
+<path fill="url(#wash)" d="M1040 0h880v1080h-880z"/>
+<path fill="#EAF4F6" fill-opacity=".09" d="M1405 0h360v475h-360z"/>
+<path stroke="#D9E7E6" stroke-opacity=".19" stroke-width="3" d="M1585 0v468m-180-231h360"/>
+<path fill="#092229" fill-opacity=".7" d="M0 0h566v700H0z"/>
+<path stroke="#D2E1DF" stroke-opacity=".15" stroke-width="2" d="M94 126h342m-342 18h224"/>
+<path fill="#10434B" d="M163 242c-20-140 125-201 204-119 30 31 36 73 28 117 21 37 25 75 8 107-18 36-61 60-110 60-72 0-127-45-132-108-2-22 0-39 2-57Z" opacity=".56"/>
+<path fill="#EAF4F6" fill-opacity=".50" d="M94 542c28-88 79-143 151-166 34-11 57-8 83-2-66 29-92 70-110 115 57-26 104-28 148-9-65 27-111 67-139 129-24 56-29 112-20 177H86c18-92 8-168 8-244Z"/>
+<path fill="#10B981" fill-opacity=".6" d="M288 430c42-82 101-116 161-106-23 62-70 109-135 130-10-6-19-14-26-24Z"/>
+<path fill="#10B981" fill-opacity=".34" d="M291 467c57-50 117-57 171-35-42 41-99 62-164 57-3-7-5-14-7-22Z"/>
+<path fill="#0D1117" fill-opacity=".56" d="M1260 89h472v434h-472z"/>
+<path stroke="#D6E0E5" stroke-opacity=".18" stroke-width="2" d="M1305 128h340m-340 20h216"/>
+<circle cx="1044" cy="548" r="374" fill="url(#warm)"/>
+<ellipse cx="1086" cy="1038" fill="#000" fill-opacity=".46" rx="526" ry="85" filter="url(#shadow)"/>
+<path fill="url(#shirt)" d="M653 864c1-128 34-231 94-292 62-64 154-104 270-106 97-2 204 22 279 86 68 57 104 152 120 297l-28 178H655l-2-163Z"/>
+<path fill="#10282F" d="M936 560c41 35 97 57 161 59 57 1 113-15 154-47l74 58c-40 69-124 107-239 107-131 0-210-39-244-104l94-73Z"/>
+<path fill="url(#skin)" d="M977 426c8-90 73-154 160-154 104 0 179 79 174 188l-7 118c-8 102-79 175-177 176-103 1-178-73-174-179l4-149Z"/>
+<path fill="#241E1E" d="M951 428c-25-95 13-196 91-237 79-42 187-25 244 26 47 42 64 105 48 174-19-45-44-72-74-84-8 56-60 90-137 101-73 11-126 33-170 77l-2-57Z"/>
+<path fill="#151B1D" d="M1002 287c47-74 159-91 244-47-23 19-55 33-93 40-42 7-83 7-151 7Z"/>
+<path stroke="#231D1C" stroke-width="8" stroke-linecap="round" d="M1046 469c19-8 36-8 52-1m19-26c19-8 38-7 55 1"/>
+<path stroke="#D09A73" stroke-width="4" stroke-linecap="round" d="M1101 526c-9 17-13 34-9 50 6 8 18 10 30 8"/>
+<path stroke="#4B2924" stroke-width="7" stroke-linecap="round" d="M1080 602c31 11 59 9 82-7"/>
+<path fill="#A56C4E" d="M945 449c-28-10-46 6-43 37 3 29 18 48 42 52l1-89Zm352 6c27-15 46 0 43 31-3 31-20 49-45 52l2-83Z"/>
+<path fill="#141B1D" d="M1111 681c-10 58-3 98 28 124 27 23 63 38 96 45l-154 72-201-112 98-87c40-5 82-19 133-42Z"/>
+<path fill="#9B6247" d="M966 774c68 41 148 70 245 82 55 6 90 20 106 45 14 24-1 49-33 55-70 13-162 5-259-24-71-21-146-61-195-102-31-26-31-62-4-82 36-27 94 2 140 26Z"/>
+<path fill="#B37955" d="M1033 815c61 20 118 32 172 34 28 1 45 13 45 29 0 20-20 29-54 29-73 1-136-11-200-32-39-13-72-29-103-48l38-34c29 8 60 15 102 22Z"/>
+<path fill="#A76E50" d="M788 833c26-13 50-22 74-23 33-1 46 14 40 32-4 13-21 22-46 28-23 6-42 14-62 29l-39-22c8-18 18-33 33-44Z"/>
+<path fill="url(#desk)" d="M358 924c134-49 297-75 472-77 263-4 518 30 793 127 44 15 59 52 29 83-60 62-219 109-406 130H372c-82-40-116-104-14-263Z"/>
+<path fill="#E8ECE9" fill-opacity=".9" d="m539 716 562-22 101 297-562 45-101-320Z"/>
+<path fill="url(#paper)" d="m522 700 562-22 99 293-566 49-95-320Z"/>
+<path stroke="#829D9C" stroke-opacity=".58" stroke-width="2" d="m592 766 375-15m-359 38 409-19m-393 42 318-16m-302 39 352-17m-336 40 293-14"/>
+<path stroke="#0F4C5C" stroke-width="5" stroke-linecap="round" d="m730 890 108-81 86 64 119-112"/>
+<circle cx="924" cy="832" r="12" fill="#10B981"/>
+<path stroke="#0F4C5C" stroke-width="3" d="m998 784 45 55m-241-14 49-61"/>
+<path fill="#0D1117" d="m1045 702 253 70-49 25-251-71 47-24Z"/>
+<path fill="#D4DAD6" d="m1045 702 49-13 253 69-49 14-253-70Z"/>
+<path fill="#10B981" d="m1045 702 49-13 19 5-47 15-21-7Z"/>
+<path fill="#EAF4F6" fill-opacity=".64" d="m1074 783 148 35 9 25-145-34-12-26Z"/>
+<rect width="1920" height="1200" fill="url(#grain)" opacity=".43"/>
+<path stroke="#10B981" stroke-opacity=".58" stroke-width="2" d="M86 1047h248m-248 12h110"/><circle cx="352" cy="1054" r="3" fill="#10B981"/>
+</svg>

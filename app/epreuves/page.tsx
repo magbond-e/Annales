@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { SearchBar } from '@/components/SearchBar';
@@ -31,12 +31,12 @@ function EpreuvesContent() {
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
 
-  // Rediriger vers l'accueil si l'utilisateur n'est pas connecté
+  // Rediriger vers Google Sign-In si l'utilisateur n'est pas connecté
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.replace('/');
+      signIn('google', { callbackUrl: '/epreuves' });
     }
-  }, [status, router]);
+  }, [status]);
 
   // États des filtres synchronisés avec l'URL
   const queryParam = searchParams.get('q') || '';
@@ -304,42 +304,42 @@ function EpreuvesContent() {
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-28 md:pb-16">
         {/* Top Header / Hero Banner */}
-        <div className="relative rounded-3xl bg-gradient-to-r from-brand via-teal-800 to-brand-dark p-6 sm:p-8 text-white shadow-xl shadow-brand/10 mb-8 overflow-hidden">
+        <div className="relative rounded-3xl bg-gradient-to-r from-[#0F4C5C] via-[#0D2B35] to-[#0D1117] p-6 sm:p-8 text-white border border-[#30363D] shadow-xl shadow-black/20 mb-8 overflow-hidden">
           {/* Ambient light effect inside header */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-teal-400/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-emerald-300">
-                <GraduationCap className="w-3.5 h-3.5" />
-                <span>Archives MBH • École Polytechnique d&apos;Abomey-Calavi</span>
+            <div className="space-y-2.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 dark:bg-emerald-950/40 backdrop-blur-md border border-white/15 dark:border-emerald-800/50 text-xs font-mono font-medium text-emerald-300">
+                <span className="text-emerald-400 font-bold">01</span>
+                <span>ARCHIVE MBH · EPAC BÉNIN</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
-                Annales & Sujets d&apos;Épreuves
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading tracking-tight text-white">
+                Catalogue des <em className="text-emerald-400 not-italic font-extrabold">annales MBH</em>
               </h1>
 
-              <p className="text-xs sm:text-sm text-slate-200 max-w-xl leading-relaxed">
-                Retrouvez instantanément les devoirs, examens et rattrapages passés pour vos révisions universitaires.
+              <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+                Retrouvez instantanément les devoirs, examens et corrigés passés de la filière pour vos révisions universitaires.
               </p>
             </div>
 
             {/* Profile Level pill & Total count badge */}
-            <div className="flex flex-wrap items-center gap-3 self-start md:self-center">
-              <div className="px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-                <span className="block text-xl font-black text-emerald-300">{totalCount}</span>
-                <span className="text-[10px] font-semibold text-slate-300 uppercase tracking-wider">
+            <div className="flex flex-wrap items-center gap-3 self-start md:self-center font-mono">
+              <div className="px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[90px]">
+                <span className="block text-2xl font-black text-emerald-300 font-mono">{totalCount}</span>
+                <span className="text-[10px] font-medium text-slate-300 uppercase tracking-wider">
                   Document{totalCount > 1 ? 's' : ''}
                 </span>
               </div>
 
               <Link
                 href="/onboarding"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white text-brand hover:bg-slate-50 font-bold text-xs shadow-md transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white text-slate-900 hover:bg-slate-50 font-bold text-xs shadow-md transition-all hover:scale-105 active:scale-95"
               >
                 <User className="w-3.5 h-3.5 text-emerald-600" />
-                <span>{selectedNiveau && selectedNiveau !== 'all' ? selectedNiveau : 'Définir mon niveau'}</span>
+                <span>{selectedNiveau && selectedNiveau !== 'all' ? selectedNiveau : 'Mon niveau'}</span>
               </Link>
             </div>
           </div>

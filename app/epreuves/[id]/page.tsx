@@ -27,14 +27,21 @@ import {
   X,
   LockKeyhole,
 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 
 function EpreuveDetailContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const id = params.id as string;
   const isNewlyCreated = searchParams.get('created') === 'true';
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // Redirection Google si non connecté
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      signIn('google', { callbackUrl: `/epreuves/${id}` });
+    }
+  }, [status, id]);
 
   const [epreuve, setEpreuve] = useState<Epreuve | null>(null);
   const [loading, setLoading] = useState(true);

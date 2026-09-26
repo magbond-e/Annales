@@ -73,6 +73,7 @@ const config: Config = {
         sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
         heading: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
         display: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+        mono: ["IBM Plex Mono", "monospace"],
       },
     },
   },

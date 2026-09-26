@@ -10,7 +10,6 @@ import {
   FolderArchive, 
   LogOut, 
   GraduationCap,
-  Sparkles,
   ChevronDown,
   ShieldAlert
 } from 'lucide-react';
@@ -75,7 +74,7 @@ export function Navbar() {
               <img
                 src="/logo.svg"
                 alt="Annale229 Logo"
-                className="w-10 h-10 rounded-xl shadow-md shadow-brand/20 object-contain"
+                className="w-10 h-10 rounded-xl shadow-md shadow-emerald-950/20 object-contain"
               />
               <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -85,15 +84,15 @@ export function Navbar() {
 
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="text-xl font-extrabold tracking-tight text-brand group-hover:text-brand-hover transition-colors font-heading">
-                  Annale<span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">229</span>
+                <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-[#F0F6FC] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors font-heading">
+                  Annale<span className="text-emerald-500">229</span>
                 </span>
-                <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-bold text-brand bg-brand-50 border border-brand-200 rounded-badge uppercase tracking-wider">
-                  MBH • EPAC
+                <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 rounded-full uppercase tracking-wider">
+                  MBH · EPAC
                 </span>
               </div>
-              <span className="text-[10px] font-medium text-ink-muted hidden sm:block">
-                Génie Biomédical & Hospitalier
+              <span className="text-[10px] font-medium text-slate-400 dark:text-slate-400 hidden sm:block font-mono">
+                Maintenance Biomédicale &amp; Hospitalière
               </span>
             </div>
           </Link>
@@ -102,6 +101,12 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-1.5 bg-slate-100/80 dark:bg-[#161B22] p-1.5 rounded-2xl border border-slate-200/70 dark:border-[#30363D]">
             <Link
               href="/epreuves"
+              onClick={(e) => {
+                if (status === 'unauthenticated') {
+                  e.preventDefault();
+                  signIn('google', { callbackUrl: '/epreuves' });
+                }
+              }}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 ${
                 isActive('/epreuves') && !isActive('/epreuves/')
                   ? 'bg-white dark:bg-[#21262D] text-brand dark:text-emerald-400 shadow-sm shadow-slate-200/80 dark:shadow-none'
@@ -114,6 +119,12 @@ export function Navbar() {
 
             <Link
               href="/deposer"
+              onClick={(e) => {
+                if (status === 'unauthenticated') {
+                  e.preventDefault();
+                  signIn('google', { callbackUrl: '/deposer' });
+                }
+              }}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 ${
                 isActive('/deposer')
                   ? 'bg-white dark:bg-[#21262D] text-brand dark:text-emerald-400 shadow-sm shadow-slate-200/80 dark:shadow-none'
@@ -126,6 +137,12 @@ export function Navbar() {
 
             <Link
               href="/mes-depots"
+              onClick={(e) => {
+                if (status === 'unauthenticated') {
+                  e.preventDefault();
+                  signIn('google', { callbackUrl: '/mes-depots' });
+                }
+              }}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 ${
                 isActive('/mes-depots')
                   ? 'bg-white dark:bg-[#21262D] text-brand dark:text-emerald-400 shadow-sm shadow-slate-200/80 dark:shadow-none'
@@ -318,7 +335,6 @@ export function Navbar() {
                 onClick={() => signIn('google')}
                 className="flex items-center gap-2 text-xs sm:text-sm font-bold text-brand bg-brand-50 hover:bg-brand-100/80 px-4 py-2 rounded-xl border border-brand-200/80 transition-all shadow-subtle hover:scale-[1.02]"
               >
-                <Sparkles className="w-4 h-4 text-emerald-600" />
                 <span>Connexion avec Google</span>
               </button>
             )}

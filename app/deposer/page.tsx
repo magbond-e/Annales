@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { MatiereCombobox } from '@/components/MatiereCombobox';
@@ -37,7 +37,14 @@ import {
 
 export default function DeposerPage() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // Redirection Google si non connecté
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      signIn('google', { callbackUrl: '/deposer' });
+    }
+  }, [status]);
 
   // Données de formulaire
   const [matiereNom, setMatiereNom] = useState('');
@@ -306,17 +313,13 @@ export default function DeposerPage() {
         <div className="bg-white dark:bg-[#161B22] rounded-3xl p-6 sm:p-10 border border-slate-200/80 dark:border-[#30363D] shadow-sm relative overflow-hidden">
           {/* Header */}
           <div className="mb-8 border-b border-slate-100 dark:border-[#30363D] pb-6">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Contribution Solidaire MBH</span>
-              </span>
-              <span className="text-xs font-bold text-slate-400 dark:text-slate-500">| Promotion de l&apos;Excellence</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-ink-primary dark:text-[#F0F6FC] tracking-tight font-heading">
-              Déposer une épreuve passée
+            <p className="eyebrow mb-2">
+              <span>01</span> DÉPÔT D&apos;ARCHIVE · MBH EPAC
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#F0F6FC] tracking-tight font-heading">
+              Transmettre un <em className="text-emerald-500 not-italic font-extrabold">sujet d&apos;épreuve</em>
             </h1>
-            <p className="text-xs sm:text-sm text-ink-secondary dark:text-slate-400 mt-1.5 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed max-w-2xl">
               Partagez une épreuve d&apos;examen ou de devoir avec vos camarades. Si votre sujet est découpé en plusieurs photos,
               <strong> elles seront automatiquement fusionnées en un PDF unique</strong>. Vous pouvez également y joindre le corrigé.
             </p>

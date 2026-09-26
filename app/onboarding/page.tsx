@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { GraduationCap, ArrowRight, Loader2, Sparkles, Check, Award } from 'lucide-react';
 import { VALID_NIVEAUX_PREDEFINIS } from '@/lib/utils/validation';
@@ -10,6 +10,13 @@ import { VALID_NIVEAUX_PREDEFINIS } from '@/lib/utils/validation';
 export default function OnboardingPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  // Redirection automatique si non authentifié
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      signIn('google', { callbackUrl: '/onboarding' });
+    }
+  }, [status]);
 
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [customNiveau, setCustomNiveau] = useState<string>('');
@@ -71,13 +78,17 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-surface-bg flex flex-col justify-between selection:bg-brand selection:text-white">
       {/* Barre supérieure */}
       <header className="w-full max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
-        <Link href="/epreuves" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-xl bg-brand text-white flex items-center justify-center shadow-md shadow-brand/20 group-hover:scale-105 transition-all">
-            <GraduationCap className="w-5 h-5 text-emerald-300" />
+        <Link href="/epreuves" className="flex items-center gap-3 group">
+          <img
+            src="/logo.svg"
+            alt="Annale229 Logo"
+            className="w-9 h-9 rounded-xl shadow-md object-contain group-hover:scale-105 transition-transform"
+          />
+          <div className="flex flex-col">
+            <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-[#F0F6FC] font-heading">
+              Annale<span className="text-emerald-500">229</span>
+            </span>
           </div>
-          <span className="text-xl font-black tracking-tight text-brand">
-            Annale<span className="text-emerald-600">229</span>
-          </span>
         </Link>
       </header>
 
